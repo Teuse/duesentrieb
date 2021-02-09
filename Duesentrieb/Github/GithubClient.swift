@@ -31,7 +31,7 @@ extension GithubClient {
         return RestClient.modelForRequest(method: .get, url: url, header: header, session: urlSession)
     }
     
-    func listOpenPRs(org: String, repo: String) -> AnyPublisher<[PullRequest], BackendError> {
+    func listOpenPRs(org: String, repo: String) -> AnyPublisher<[PullEntry], BackendError> {
         let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls?state=open")!
         return RestClient.arrayForRequest(method: .get, url: url, header: header, session: urlSession)
     }
@@ -39,5 +39,24 @@ extension GithubClient {
     func reviews(org: String, repo: String, pr: Int) -> AnyPublisher<[Review], BackendError> {
         let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls/\(pr)/reviews")!
         return RestClient.arrayForRequest(method: .get, url: url, header: header, session: urlSession)
+    }
+    
+    func pullRequest(org: String, repo: String, pr: Int) -> AnyPublisher<PullRequest, BackendError> {
+        let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls/\(pr)")!
+        return RestClient.modelForRequest(method: .get, url: url, header: header, session: urlSession)
+    }
+    
+    func pullRequestDetails(org: String, repo: String, prNumber: Int) -> AnyPublisher<(PullRequest, [Review]), BackendError> {
+        var pullRequest: PullRequest?
+        
+        return self.pullRequest(org: org, repo: repo, pr: prNumber)
+            .flatMap { pr -> AnyPublisher<[Review], BackendError> in
+                pullRequest = pr
+                return self.reviews(org: org, repo: repo, pr: prNumber)
+            }
+            .map { reviews in
+                return (pullRequest!, reviews)
+            }
+            .eraseToAnyPublisher()
     }
 }

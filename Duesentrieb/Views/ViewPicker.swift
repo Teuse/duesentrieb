@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ViewPicker: View {
     
-    @State private var selection = 0
+    @Binding var selection: Int
     var colors = ["Reviewing", "Mine"]
     
     var body: some View {
@@ -19,7 +19,7 @@ struct ViewPicker: View {
                 pickerButton(text: "Mine", selected: selection == 1)
             }.buttonStyle(PlainButtonStyle())
         }
-        .frame(height: 35)
+        .frame(height: 25)
         .overlay(RoundedRectangle(cornerRadius: 3)
                     .stroke(Color.black, lineWidth: 1))
         .padding()
@@ -29,12 +29,12 @@ struct ViewPicker: View {
     func pickerButton(text: String, selected: Bool) -> some View {
         ZStack {
             Rectangle()
-                .fill(selected ? Color.green : Color.gray)
+                .fill(selected ? Color.orange : Color.gray)
             
             HStack {
                 Spacer()
                 Text(text)
-                    .foregroundColor(selected ? Color.white : Color.black)
+                    .foregroundColor(Color.black)
                 Spacer()
             }
         }
@@ -43,8 +43,8 @@ struct ViewPicker: View {
 }
 
 
-struct ViewPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPicker()
-    }
-}
+//struct ViewPicker_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ViewPicker()
+//    }
+//}

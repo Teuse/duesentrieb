@@ -10,16 +10,16 @@ class RootViewModel: ObservableObject {
     @Published private(set) var requestState = RequestState.unknown
     
     private var user: User?
-    private var reposViewModel: ReposViewModel?
+    private(set) var reposViewModel: GithubViewModel?
     
-    var minePRsCount: Int {
+    var myPullRequestsCount: Int {
         guard let model = reposViewModel else { return 0 }
-        return model.myPRs
+        return model.myPullRequests.count
     }
     
-    var reviewRequestsCount: Int {
+    var myReviewRequestsCount: Int {
         guard let model = reposViewModel else { return 0 }
-        return model.openPRs
+        return model.myReviewRequests.count
     }
     
     init(client: GithubClient) {
@@ -31,7 +31,7 @@ class RootViewModel: ObservableObject {
         self.user = user
         self.requestState = .done
         
-        reposViewModel = ReposViewModel(client: client, user: user)
+        reposViewModel = GithubViewModel(client: client, user: user)
         
         reposViewModel?.objectWillChange
             .sink(receiveValue: { self.objectWillChange.send() })

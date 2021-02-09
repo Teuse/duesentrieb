@@ -1,4 +1,3 @@
-import Cocoa
 import SwiftUI
 
 @NSApplicationMain
@@ -31,6 +30,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    private var separator: String {
+        if let rvm = rootViewModel.reposViewModel, rvm.hasError {
+            return "⚠️"
+        }
+        return "|"
+    }
+    
     private func updateButton() {
         if rootViewModel.requestState == .requesting {
             statusBarItem.button?.title = nextAnimationSymbol()
@@ -38,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             statusBarItem.button?.title = "⚠️"
         } else if rootViewModel.requestState == .done {
             statusBarItem.button?.title =
-                "\(rootViewModel.minePRsCount)  |  \(rootViewModel.reviewRequestsCount)"
+                "\(rootViewModel.myReviewRequestsCount)  \(separator)  \(rootViewModel.myPullRequestsCount)"
         } else {
             statusBarItem.button?.title = "?"
         }
@@ -54,11 +60,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func togglePopover(_ sender: AnyObject?) {
-        if let button = self.statusBarItem.button {
-            if self.popover.isShown {
-                self.popover.performClose(sender)
+        if let button = statusBarItem.button {
+            if popover.isShown {
+                popover.performClose(sender)
             } else {
-                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                NSApplication.shared.activate(ignoringOtherApps: true)
+                popover.contentViewController?.view.window?.makeKey()
             }
         }
     }
