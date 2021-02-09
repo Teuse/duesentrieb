@@ -4,7 +4,7 @@ struct PullsView: View {
     @ObservedObject var viewModel: GithubViewModel
     let page: Int
     
-    func pullRequests(for repo: RepositoryViewModel) -> [PullRequest] {
+    func pullRequests(for repo: RepositoryViewModel) -> [PullRequestViewModel] {
         switch page {
         case 0: return repo.pullRequests(toBeReviewedBy: viewModel.user)
         case 1: return repo.pullRequests(ownedBy: viewModel.user)
@@ -14,29 +14,25 @@ struct PullsView: View {
     }
     
     var body: some View {
-
+        
         ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ForEach(viewModel.pullsViewModel, id: \.uuid) { repo in
-                        if !pullRequests(for: repo).isEmpty {
-                            section(text: "\(repo.org)/\(repo.repo)")
-                            
-                            ForEach(pullRequests(for: repo), id: \.id) { pr in
-                                VStack(spacing: 0) {
-                                    if page == 0 {
-                                        ReviewingRow(pullRequest: pr) { viewModel.openInBrowser(pullRequest: pr) }
-                                    } else {
-                                        MineRow(pullRequest: pr) { viewModel.openInBrowser(pullRequest: pr) }
-                                    }
-                                    
-                                    if pr.id != repo.pullRequests.last?.pullRequest.id {
-                                        Rectangle().fill(Color.black).frame(height: 1)
-                                    }
+            VStack(spacing: 0) {
+                ForEach(viewModel.pullsViewModel, id: \.uuid) { repo in
+                    if !pullRequests(for: repo).isEmpty {
+                        section(text: "\(repo.org)/\(repo.repo)")
+                        
+                        ForEach(pullRequests(for: repo), id: \.uuid) { pr in
+                            VStack(spacing: 0) {
+                                PullRequestRow(viewModel: pr)
+                                
+                                if pr.pullRequest.id != repo.pullRequests.last?.pullRequest.id {
+                                    Rectangle().fill(Color.black).frame(height: 1)
                                 }
                             }
                         }
                     }
                 }
+            }
         }
     }
     

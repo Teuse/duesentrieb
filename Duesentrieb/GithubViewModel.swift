@@ -1,5 +1,4 @@
 import Foundation
-import Cocoa
 
 class GithubViewModel: ObservableObject {
     
@@ -18,11 +17,11 @@ class GithubViewModel: ObservableObject {
     let user: User
     
     var myPullRequests: [PullRequest] {
-        return pullsViewModel.flatMap { $0.pullRequests(ownedBy: user) }
+        return pullsViewModel.flatMap { $0.pullRequests(ownedBy: user) }.map{ $0.pullRequest }
     }
     
     var myReviewRequests: [PullRequest] {
-        return pullsViewModel.flatMap { $0.pullRequests(toBeReviewedBy: user) }
+        return pullsViewModel.flatMap { $0.pullRequests(toBeReviewedBy: user) }.map{ $0.pullRequest }
     }
     
     var hasError: Bool {
@@ -41,11 +40,6 @@ class GithubViewModel: ObservableObject {
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             self.triggerUpdate()
         }
-    }
-    
-    func openInBrowser(pullRequest: PullRequest) {
-        guard let url = URL(string: pullRequest.url) else { return }
-        NSWorkspace.shared.open(url)
     }
     
     //MARK:- Private Functions

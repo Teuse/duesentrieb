@@ -26,12 +26,12 @@ class RepositoryViewModel: ObservableObject {
         fetchPRs()
     }
     
-    func pullRequests(ownedBy user: User) -> [PullRequest] {
-        return pullRequests.filter({ $0.type == .mine }).map{ $0.pullRequest }
+    func pullRequests(ownedBy user: User) -> [PullRequestViewModel] {
+        return pullRequests.filter({ $0.type == .mine })
     }
     
-    func pullRequests(toBeReviewedBy user: User) -> [PullRequest] {
-        return pullRequests.filter({ $0.type == .reviewing }).map{ $0.pullRequest }
+    func pullRequests(toBeReviewedBy user: User) -> [PullRequestViewModel] {
+        return pullRequests.filter({ $0.type == .reviewing })
     }
     
     //MARK:- Private Functions

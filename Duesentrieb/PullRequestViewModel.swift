@@ -1,4 +1,5 @@
 import Foundation
+import Cocoa
 
 enum PullRequestType {
     case mine
@@ -24,6 +25,10 @@ class PullRequestViewModel: ObservableObject {
         self.user = user
     }
 
+    func openInBrowser() {
+        guard let url = URL(string: pullRequest.url) else { return }
+        NSWorkspace.shared.open(url)
+    }
     
     //MARK:- Private Functions
     
