@@ -22,8 +22,6 @@ struct ViewPicker: View {
         .frame(height: 25)
         .overlay(RoundedRectangle(cornerRadius: 3)
                     .stroke(Color.black, lineWidth: 1))
-        .padding()
-        
     }
     
     func pickerButton(text: String, selected: Bool) -> some View {

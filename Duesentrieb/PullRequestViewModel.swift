@@ -12,12 +12,14 @@ class PullRequestViewModel: ObservableObject {
     let pullRequest: PullRequest
     let reviews: [Review]
     let user: User
-
+    
     var type: PullRequestType {
         if pullRequest.user.id == user.id     { return .mine }
         if pullRequest.isReviewer(user: user) { return .reviewing }
         return .unknown
     }
+    
+    var comments: [Review] { reviews.filter({ $0.isComment })}
     
     init(pullRequest: PullRequest, reviews: [Review], user: User) {
         self.pullRequest = pullRequest

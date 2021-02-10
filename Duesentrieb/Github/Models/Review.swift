@@ -7,4 +7,5 @@ struct Review: Codable {
     let body: String
     
     var approved: Bool { state == "APPROVED" }
+    var isComment: Bool { state == "COMMENTED" }
 }

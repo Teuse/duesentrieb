@@ -30,9 +30,12 @@ struct PullRequestRow: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    reviewsIndicators.offset(x: 70)
+                                    reviewsIndicators
+                                    Spacer().frame(width: 15)
+                                    commentsIndicator
                                     Spacer()
                                 }
+                                .offset(x: 70)
                             }
                         }
                         Spacer()
@@ -58,9 +61,13 @@ struct PullRequestRow: View {
                 ApprovedIndication(userName: reviewer.login, approved: false)
             }
         }
-        
     }
     
-    
+    var commentsIndicator: some View {
+        HStack(spacing: 2) {
+            Text("\(viewModel.comments.count)")
+            Text("💬")
+        }
+    }
 }
 
