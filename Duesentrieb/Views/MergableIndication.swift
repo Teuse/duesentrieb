@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct ApprovedIndication: View {
+struct MergableIndication: View {
     @State private var showPopover: Bool = false
     
-    let userName: String
-    let approved: Bool
+    let mergeable: Bool
+    let description: String
     
     var body: some View {
         approvedIcon
@@ -17,25 +17,22 @@ struct ApprovedIndication: View {
     }
     
     var approvedIcon: some View {
-        ZStack {
-            if approved {
-                Text("✓").font(.system(size: 15)).foregroundColor(.green)
-            } else {
-                Text("🟡").font(.system(size: 6))
-            }
-        }
+        Text(mergeable ? "✓" : "✗")
+            .font(.headline)
+            .bold()
+            .foregroundColor(mergeable ? Color.green : Color.red)
     }
     
     var popoverContent: some View {
         ZStack {
-            Text(userName)
+            Text(description)
         }
         .frame(width: 100, height: 20)
     }
 }
 
-//struct ReviewedIndication_Previews: PreviewProvider {
+//struct MergableIndication_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ApprovedIndication(userName: "ABCDEFG", approved: false)
+//        MergableIndication()
 //    }
 //}

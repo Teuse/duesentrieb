@@ -39,10 +39,8 @@ struct PullRequestRow: View {
                             }
                         }
                         Spacer()
-                        Text(viewModel.pullRequest.mergeable ? "✓" : "✗")
-                            .font(.headline)
-                            .bold()
-                            .foregroundColor(viewModel.pullRequest.mergeable ? Color.green : Color.red)
+                        MergableIndication(mergeable: viewModel.pullRequest.mergeable,
+                                           description: viewModel.pullRequest.mergeableState)
                     }
                 }
                 .padding([.leading, .trailing])

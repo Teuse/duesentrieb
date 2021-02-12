@@ -43,7 +43,7 @@ class GithubViewModel: ObservableObject {
     
     //MARK:- Private Functions
     
-    private func triggerUpdate() {
+    func triggerUpdate() {
         pullsViewModel.forEach{ $0.triggerUpdate() }
     }
     

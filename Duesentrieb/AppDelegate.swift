@@ -4,7 +4,7 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     private static let baseUrl = "https://git.daimler.com/api/v3"
-    private static let token = "d5ee4ec9a38191fc746e3ea2441d981ea024ad21"
+    private static let token = ""
     
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: 55)
     private let popover = NSPopover()
@@ -64,6 +64,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
+                rootViewModel.reposViewModel?.triggerUpdate()
+                
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 NSApplication.shared.activate(ignoringOtherApps: true)
                 popover.contentViewController?.view.window?.makeKey()
