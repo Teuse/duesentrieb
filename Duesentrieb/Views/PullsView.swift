@@ -26,7 +26,7 @@ struct PullsView: View {
                             PullRequestRow(viewModel: pr)
                             
                             //Separator
-                            if pr.pullRequest.id != repo.pullRequests.last?.pullRequest.id {
+                            if pr.pullRequest.id != pullRequests(for: repo) .last?.pullRequest.id {
                                 Rectangle().fill(Color.black).frame(height: 1)
                             }
                         }

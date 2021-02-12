@@ -5,16 +5,35 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            headline
+                .padding([.leading, .trailing, .top])
+            
+            
+            
+            Spacer()
+            
+            LargeButton(text: "Quit App") {
+                NSApplication.shared.terminate(nil)
+            }.padding()
+        }
+    }
+    
+    var headline: some View {
+        VStack(spacing: 5) {
             HStack(spacing: 0) {
+                Text("Settings").font(.title)
+                
                 Spacer()
                 
                 Button(action: { shown.toggle() }) {
-                    Text("Ⅹ").font(.system(size: 20))
+                    Text("Ⅹ").font(.system(size: 25))
                 }.buttonStyle(PlainButtonStyle())
             }
-            .padding()
+            .frame(height: 25)
             
-            Spacer()
+            Rectangle().fill(Color.black)
+                .frame(height: 1)
+                .padding(.trailing, 50)
         }
     }
 }

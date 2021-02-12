@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFB25D6CAD50015BB00 /* LargeButton.swift */; };
+		33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFE25D6CB320015BB00 /* AppColor.swift */; };
 		334D7BFF25D30C3F002B547C /* ApprovedIndication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334D7BFE25D30C3F002B547C /* ApprovedIndication.swift */; };
 		334D7C0425D3B60C002B547C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334D7C0325D3B60C002B547C /* SettingsView.swift */; };
 		339E60D325D2625E0052B238 /* ReposView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E60D225D2625E0052B238 /* ReposView.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33322AFB25D6CAD50015BB00 /* LargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButton.swift; sourceTree = "<group>"; };
+		33322AFE25D6CB320015BB00 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		334D7BFE25D30C3F002B547C /* ApprovedIndication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedIndication.swift; sourceTree = "<group>"; };
 		334D7C0325D3B60C002B547C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		339E60D225D2625E0052B238 /* ReposView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposView.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				33B25CD025D119BE008D6F29 /* ActivityIndicator.swift */,
+				33322AFB25D6CAD50015BB00 /* LargeButton.swift */,
 			);
 			path = GenericViews;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 		33B25CCD25D119BE008D6F29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				33322AFE25D6CB320015BB00 /* AppColor.swift */,
 				339E60CF25D25F400052B238 /* GenericViews */,
 				33B25CCF25D119BE008D6F29 /* RootView.swift */,
 				339E60D225D2625E0052B238 /* ReposView.swift */,
@@ -266,10 +272,12 @@
 				33B25CD825D119BE008D6F29 /* RestClient.swift in Sources */,
 				334D7BFF25D30C3F002B547C /* ApprovedIndication.swift in Sources */,
 				33B25CD925D119BE008D6F29 /* DateFormatterExtension.swift in Sources */,
+				33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */,
 				33B25CE525D17C8D008D6F29 /* PullsView.swift in Sources */,
 				33B25CD425D119BE008D6F29 /* User.swift in Sources */,
 				33B25CD125D119BE008D6F29 /* PullRequest.swift in Sources */,
 				33B25CA225D11926008D6F29 /* AppDelegate.swift in Sources */,
+				33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */,
 				33B25CD625D119BE008D6F29 /* GithubClient.swift in Sources */,
 				33B25CD725D119BE008D6F29 /* CancelBag.swift in Sources */,
 				33B25CDC25D119BE008D6F29 /* ActivityIndicator.swift in Sources */,

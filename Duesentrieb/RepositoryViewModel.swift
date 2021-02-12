@@ -51,7 +51,8 @@ class RepositoryViewModel: ObservableObject {
 //        let commit = Commit(sha: "", user: user, repo: repos)
 //
 //        var details = [(PullRequest, [Review])]()
-//        for i in 1...2 {
+//        for i in 1...4 {
+//            let rewiever = User(id: 2646, login: "MARODER")
 //            let pr = PullRequest(id: i, url: "", title: "", user: user, number: 1, state: "", head: commit, mergeable: false, mergeableState: "BLUB", requestedReviewers: [rewiever])
 //
 //            details.append((pr, []))

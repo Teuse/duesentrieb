@@ -27,7 +27,7 @@ struct ViewPicker: View {
     func pickerButton(text: String, selected: Bool) -> some View {
         ZStack {
             Rectangle()
-                .fill(selected ? Color.orange : Color.gray)
+                .fill(selected ? AppColor.primary : Color.gray)
             
             HStack {
                 Spacer()

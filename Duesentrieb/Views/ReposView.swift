@@ -16,7 +16,7 @@ struct ReposView: View {
                     Text("⚙").font(.system(size: 36)).offset(y: -2)
                 }.buttonStyle(PlainButtonStyle())
             }
-            .padding()
+            .padding([.leading, .trailing, .top])
             
             PullsView(viewModel: viewModel, page: page)
             
