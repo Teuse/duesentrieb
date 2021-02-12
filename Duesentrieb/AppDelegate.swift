@@ -3,19 +3,23 @@ import SwiftUI
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    private static let baseUrl = "https://git.daimler.com/api/v3"
-    private static let token = ""
+    private let baseUrl = "https://git.daimler.com/api/v3"
+    private let token = ProcessInfo.processInfo.environment["token"]
     
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: 55)
     private let popover = NSPopover()
     
-    private let client = GithubClient(session: URLSession.shared, baseUrl: baseUrl, token: token)
+    private var client: GithubClient!
     private var rootViewModel: RootViewModel!
     
     private var animationCount = 0
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
+        guard let token = token else {
+            return print("You need to pass the github token as environment variable!")
+        }
+        
+        client = GithubClient(session: URLSession.shared, baseUrl: baseUrl, token: token)
         rootViewModel = RootViewModel(client: client)
         let contentView = RootView(viewModel: rootViewModel)
         

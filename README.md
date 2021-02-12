@@ -17,7 +17,11 @@ Bevor you build the app, you must setup the github url and your branches. Furthe
 ### Prepare Xcode
 
 Open the xcode project and go to 'AppDelegate.swift'
-Set github url and github token (see previous step)
+Set github url
+
+Go to "Manage Schemes", copy the 'Duesentrieb' Scheme and unselect the sharing option
+Now, edit the new Scheme and create the following environment variable:
+'token' : your-token-from-github (see previous step)
 
 Next, you need to setup the repositories you want to see in the app.
 Go to 'GithubViewModel' and change the 'repos' array for your needs
