@@ -31,7 +31,7 @@ class RepositoryViewModel: ObservableObject {
     }
     
     func pullRequests(toBeReviewedBy user: User) -> [PullRequestViewModel] {
-        return pullRequests.filter({ $0.type == .reviewing })
+        return pullRequests.filter({ $0.type == .reviewing || $0.type == .didReview })
     }
     
     //MARK:- Private Functions
@@ -45,8 +45,23 @@ class RepositoryViewModel: ObservableObject {
     }
     
     private func fetchPRs() {
-        requestState = .requesting
         
+//        let user = User(id: 1, login: "blub")
+//        let repos = Repository(id: 1, name: "", owner: user)
+//        let commit = Commit(sha: "", user: user, repo: repos)
+//
+//        var details = [(PullRequest, [Review])]()
+//        for i in 1...2 {
+//            let pr = PullRequest(id: i, url: "", title: "", user: user, number: 1, state: "", head: commit, mergeable: false, mergeableState: "BLUB", requestedReviewers: [rewiever])
+//
+//            details.append((pr, []))
+//        }
+//
+//        didFetchDetails(details)
+//        return
+        
+        requestState = .requesting
+
         client.listOpenPRs(org: org, repo: repo)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {

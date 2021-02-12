@@ -7,10 +7,10 @@ enum RequestState {
 class RootViewModel: ObservableObject {
     private var cancelBag = CancelBag()
     private let client: GithubClient
-    @Published private(set) var requestState = RequestState.unknown
-    
     private var user: User?
-    private(set) var reposViewModel: GithubViewModel?
+    
+    @Published private(set) var requestState = RequestState.unknown
+    @Published private(set) var reposViewModel: GithubViewModel?
     
     var myPullRequestsCount: Int {
         guard let model = reposViewModel else { return 0 }

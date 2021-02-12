@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    
     @Binding var shown: Bool
     
     var body: some View {

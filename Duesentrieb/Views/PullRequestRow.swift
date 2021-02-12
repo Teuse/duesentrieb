@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct PullRequestRow: View {
-    let viewModel: PullRequestViewModel
-    
+    @ObservedObject var viewModel: PullRequestViewModel
+
     private func action() {
         viewModel.openInBrowser()
     }
@@ -45,11 +45,11 @@ struct PullRequestRow: View {
                             .foregroundColor(viewModel.pullRequest.mergeable ? Color.green : Color.red)
                     }
                 }
-                .frame(height: 45)
                 .padding([.leading, .trailing])
             }
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(height: 45)
     }
     
     var reviewsIndicators: some View {

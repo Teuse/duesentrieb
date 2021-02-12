@@ -2,6 +2,9 @@ import Foundation
 
 class GithubViewModel: ObservableObject {
     
+    private var cancelBag = CancelBag()
+    private let client: GithubClient
+    let user: User
     private let repos = [
         ("CarConfigurator", "scc-frontend"),
         ("CarConfigurator", "scc-service"),
@@ -11,11 +14,7 @@ class GithubViewModel: ObservableObject {
     ]
     
     @Published private(set) var pullsViewModel = [RepositoryViewModel]()
-    
-    private var cancelBag = CancelBag()
-    private let client: GithubClient
-    let user: User
-    
+
     var myPullRequests: [PullRequest] {
         return pullsViewModel.flatMap { $0.pullRequests(ownedBy: user) }.map{ $0.pullRequest }
     }

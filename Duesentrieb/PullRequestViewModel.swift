@@ -4,18 +4,21 @@ import Cocoa
 enum PullRequestType {
     case mine
     case reviewing
+    case didReview
     case unknown
 }
 
 class PullRequestViewModel: ObservableObject {
     let uuid = UUID()
-    let pullRequest: PullRequest
-    let reviews: [Review]
     let user: User
+    
+    @Published var pullRequest: PullRequest
+    @Published var reviews: [Review]
     
     var type: PullRequestType {
         if pullRequest.user.id == user.id     { return .mine }
         if pullRequest.isReviewer(user: user) { return .reviewing }
+        if isApproved(by: user)               { return .didReview }
         return .unknown
     }
     
@@ -33,5 +36,8 @@ class PullRequestViewModel: ObservableObject {
     }
     
     //MARK:- Private Functions
-    
+ 
+    private func isApproved(by user: User) -> Bool {
+        return reviews.contains(where: { $0.user.id == user.id && $0.approved })
+    }
 }
