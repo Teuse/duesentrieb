@@ -15,6 +15,22 @@ class PullRequestViewModel: ObservableObject {
     @Published var pullRequest: PullRequest
     @Published var reviews: [Review]
     
+    var isMergeable: Bool? {
+        let state = pullRequest.mergeableState
+        guard let mergeable = pullRequest.mergeable, state != .unknown else {
+            return nil
+        }
+        return mergeable && (state == .clean || state == .hasHooks)
+    }
+    
+    var mergeableDescription: String {
+        guard let mergeable = isMergeable else {
+            return "Mergeable State Unknown"
+        }
+        let state = pullRequest.mergeableState
+        return mergeable ? "Mergeable" : "Not Mergeable: \(state.rawValue)"
+    }
+    
     var type: PullRequestType {
         if pullRequest.user.id == user.id     { return .mine }
         if pullRequest.isReviewer(user: user) { return .reviewing }

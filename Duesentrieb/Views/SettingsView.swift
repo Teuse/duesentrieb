@@ -3,11 +3,15 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var shown: Bool
     
+    
+    
     var body: some View {
         VStack(spacing: 0) {
             headline
-                .padding([.leading, .trailing, .top])
+                .padding()
             
+            GithubSettingsView(applyText: "Apply and restart App")
+                .padding([.leading, .trailing])
             
             
             Spacer()

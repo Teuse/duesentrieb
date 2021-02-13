@@ -36,7 +36,7 @@ struct LargeButton: View {
         }
         .frame(height: 25)
         .background(disabled ? AppColor.primaryDark : AppColor.primary)
-        .cornerRadius(8.0)
+        .cornerRadius(3.0)
         .disabled(disabled)
     }
 }

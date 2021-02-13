@@ -2,53 +2,57 @@ import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    private let baseUrl = "https://git.daimler.com/api/v3"
-    private let token = ProcessInfo.processInfo.environment["token"]
-    
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: 55)
     private let popover = NSPopover()
     
-    private var client: GithubClient!
     private var rootViewModel: RootViewModel!
-    
     private var animationCount = 0
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        guard let token = token else {
-            return print("You need to pass the github token as environment variable!")
-        }
-        
-        client = GithubClient(session: URLSession.shared, baseUrl: baseUrl, token: token)
-        rootViewModel = RootViewModel(client: client)
-        let contentView = RootView(viewModel: rootViewModel)
-        
-        popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: contentView)
-        
         statusBarItem.button?.title = ""
         statusBarItem.button?.action = #selector(togglePopover(_:))
 
+        popover.behavior = .transient
+        reloadApp()
+        
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             self.updateButton()
         }
+    }
+    
+    func reloadApp() {
+        let rootView = createRootView()
+        popover.contentViewController = NSHostingController(rootView: rootView)
+    }
+    
+    private func createRootView() -> RootView {
+        let url = AppSettings.githubUrl
+        let token = AppSettings.githubToken
+        let client = !url.isEmpty && !token.isEmpty
+            ? GithubClient(session: URLSession.shared, baseUrl: url, token: token)
+            : nil
+        
+        rootViewModel = RootViewModel(client: client)
+        return RootView(viewModel: rootViewModel)
     }
     
     private var separator: String {
         if let rvm = rootViewModel.reposViewModel, rvm.hasError {
             return "⚠️"
         }
-        return "|"
+        return " | "
     }
     
     private func updateButton() {
-        if rootViewModel.requestState == .requesting {
+        if rootViewModel.needOnboarding {
+            statusBarItem.button?.title = "Setup!"
+        } else if rootViewModel.requestState == .requesting {
             statusBarItem.button?.title = nextAnimationSymbol()
         } else if rootViewModel.requestState == .error {
             statusBarItem.button?.title = "⚠️"
         } else if rootViewModel.requestState == .done {
             statusBarItem.button?.title =
-                "\(rootViewModel.myReviewRequestsCount)  \(separator)  \(rootViewModel.myPullRequestsCount)"
+                "\(rootViewModel.myReviewRequestsCount) \(separator) \(rootViewModel.myPullRequestsCount)"
         } else {
             statusBarItem.button?.title = "?"
         }

@@ -6,11 +6,15 @@ enum RequestState {
 
 class RootViewModel: ObservableObject {
     private var cancelBag = CancelBag()
-    private let client: GithubClient
+    private let client: GithubClient?
     private var user: User?
     
     @Published private(set) var requestState = RequestState.unknown
     @Published private(set) var reposViewModel: GithubViewModel?
+    
+    var needOnboarding: Bool {
+        return client == nil
+    }
     
     var myPullRequestsCount: Int {
         guard let model = reposViewModel else { return 0 }
@@ -22,42 +26,44 @@ class RootViewModel: ObservableObject {
         return model.myReviewRequests.count
     }
     
-    init(client: GithubClient) {
+    init(client: GithubClient?) {
         self.client = client
-        fetchUser()
+        if let client = client {
+            fetchUser(client: client)
+        }
     }
     
-    private func received(user: User) {
+    private func received(user: User, client: GithubClient) {
         self.user = user
         self.requestState = .done
         
         reposViewModel = GithubViewModel(client: client, user: user)
         
-        reposViewModel?.objectWillChange
-            .sink(receiveValue: { self.objectWillChange.send() })
-            .store(in: cancelBag)
+//        reposViewModel?.objectWillChange
+//            .sink(receiveValue: { self.objectWillChange.send() })
+//            .store(in: cancelBag)
     }
     
-    private func onFetchError(error: Error) {
+    private func onFetchError(error: Error, client: GithubClient) {
         print("Couldn't fetch user. Error: \(error)")
         self.requestState = .error
         
         Timer.scheduledTimer(withTimeInterval: 8, repeats: false) { _ in
-            self.fetchUser()
+            self.fetchUser(client: client)
         }
     }
     
-    private func fetchUser() {
+    private func fetchUser(client: GithubClient) {
         requestState = .requesting
         client.loginUser()
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 
                 if case let .failure(error) = completion {
-                    self.onFetchError(error: error)
+                    self.onFetchError(error: error, client: client)
                 }
             }, receiveValue: { user in
-                self.received(user: user)
+                self.received(user: user, client: client)
             })
             .store(in: cancelBag)
     }

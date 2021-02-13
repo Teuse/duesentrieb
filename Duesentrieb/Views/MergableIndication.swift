@@ -3,8 +3,22 @@ import SwiftUI
 struct MergableIndication: View {
     @State private var showPopover: Bool = false
     
-    let mergeable: Bool
+    let mergeable: Bool?
     let description: String
+    
+    var symbol: String {
+        guard let mergeable = mergeable else {
+            return "?"
+        }
+        return mergeable ? "✓" : "✗"
+    }
+    
+    var symbolColor: Color {
+        guard let mergeable = mergeable else {
+            return Color.black
+        }
+        return mergeable ? Color.green : Color.red
+    }
     
     var body: some View {
         approvedIcon
@@ -17,10 +31,10 @@ struct MergableIndication: View {
     }
     
     var approvedIcon: some View {
-        Text(mergeable ? "✓" : "✗")
+        Text(symbol)
             .font(.headline)
             .bold()
-            .foregroundColor(mergeable ? Color.green : Color.red)
+            .foregroundColor(symbolColor)
     }
     
     var popoverContent: some View {

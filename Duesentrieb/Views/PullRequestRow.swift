@@ -39,8 +39,8 @@ struct PullRequestRow: View {
                             }
                         }
                         Spacer()
-                        MergableIndication(mergeable: viewModel.pullRequest.mergeable,
-                                           description: viewModel.pullRequest.mergeableState)
+                        MergableIndication(mergeable: viewModel.isMergeable,
+                                           description: viewModel.mergeableDescription)
                     }
                 }
                 .padding([.leading, .trailing])

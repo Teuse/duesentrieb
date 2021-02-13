@@ -7,7 +7,11 @@ struct RootView: View {
     
     var body: some View {
         ZStack {
-            if viewModel.requestState == .requesting {
+            if viewModel.needOnboarding {
+                GithubSettingsView(applyText: "Apply")
+                    .padding()
+            }
+            else if viewModel.requestState == .requesting {
                 ActivityIndicator()
                     .frame(width: 50, height: 50)
             }
