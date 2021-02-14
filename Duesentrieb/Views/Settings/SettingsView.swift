@@ -3,7 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var shown: Bool
     
-    
+    @ObservedObject private var viewModel = SettingsViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -11,14 +11,9 @@ struct SettingsView: View {
                 .padding()
             
             GithubSettingsView(applyText: "Apply and restart App")
-                .padding([.leading, .trailing])
+                .padding([.leading, .trailing, .bottom])
             
-            
-            Spacer()
-            
-            LargeButton(text: "Quit App") {
-                NSApplication.shared.terminate(nil)
-            }.padding()
+            ReposSettingsView(viewModel: viewModel)
         }
     }
     
@@ -26,6 +21,12 @@ struct SettingsView: View {
         VStack(spacing: 5) {
             HStack(spacing: 0) {
                 Text("Settings").font(.title)
+                
+                Spacer()
+                
+                LargeButton(text: "Quit App") {
+                    NSApplication.shared.terminate(nil)
+                }.frame(width: 100)
                 
                 Spacer()
                 

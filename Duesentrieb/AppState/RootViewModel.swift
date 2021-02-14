@@ -38,10 +38,6 @@ class RootViewModel: ObservableObject {
         self.requestState = .done
         
         reposViewModel = GithubViewModel(client: client, user: user)
-        
-//        reposViewModel?.objectWillChange
-//            .sink(receiveValue: { self.objectWillChange.send() })
-//            .store(in: cancelBag)
     }
     
     private func onFetchError(error: Error, client: GithubClient) {

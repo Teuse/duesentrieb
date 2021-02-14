@@ -46,7 +46,7 @@ struct PullsView: View {
                     .fill(Color.gray)
                 
                 HStack {
-                    Text("\(repo.org)/\(repo.repo)")
+                    Text("\(repo.repoPath.pathString)")
                         .bold()
                         .padding(.leading)
                         .foregroundColor(.white)

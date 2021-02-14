@@ -6,6 +6,8 @@ struct GithubSettingsView: View {
     
     let applyText: String
     
+    var buttonDisabled: Bool { gitUrl.isEmpty || gitToken.isEmpty }
+    
     func applyAction() {
         if !gitUrl.isEmpty {
             AppSettings.githubUrl = gitUrl
@@ -33,7 +35,7 @@ struct GithubSettingsView: View {
                     .frame(width: 270)
             }
             Spacer().frame(height: 5)
-            LargeButton(text: applyText, action: applyAction)
+            LargeButton(text: applyText, disabled: buttonDisabled, action: applyAction)
         }
     }
 }

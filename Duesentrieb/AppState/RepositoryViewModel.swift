@@ -7,18 +7,16 @@ class RepositoryViewModel: ObservableObject {
     @Published private(set) var requestState = RequestState.unknown
     
     let uuid = UUID()
-    let org: String
-    let repo: String
+    let repoPath: RepositoryPath
     let user: User
     
     private let client: GithubClient
     private var cancelBag = CancelBag()
     
-    init(user: User, client: GithubClient, org: String, repo: String) {
+    init(user: User, client: GithubClient, repoPath: RepositoryPath) {
         self.user = user
         self.client = client
-        self.org = org
-        self.repo = repo
+        self.repoPath = repoPath
     }
     
     func triggerUpdate() {
@@ -63,10 +61,11 @@ class RepositoryViewModel: ObservableObject {
         
         requestState = .requesting
 
-        client.listOpenPRs(org: org, repo: repo)
+        client.listOpenPRs(org: repoPath.org, repo: repoPath.repo)
+            .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error: failed to fetch PRs (\(self.org)/\(self.repo)): \(error.localizedDescription)")
+                    print("Error: failed to fetch PRs (\(self.repoPath.pathString)): \(error.localizedDescription)")
                     self.requestState = .error
                 }
             }, receiveValue: { pulls in
@@ -77,12 +76,12 @@ class RepositoryViewModel: ObservableObject {
     
     private func fetchDetails(_ pulls: [PullEntry]) {
         Publishers.Sequence(sequence: pulls)
-            .flatMap{ self.client.pullRequestDetails(org: self.org, repo: self.repo, prNumber: $0.number) }
+            .flatMap{ self.client.pullRequestDetails(org: self.repoPath.org, repo: self.repoPath.repo, prNumber: $0.number) }
             .collect()
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error: failed to fetch PRs (\(self.org)/\(self.repo)): \(error.localizedDescription)")
+                    print("Error: failed to fetch PRs (\(self.repoPath.pathString)): \(error.localizedDescription)")
                     self.requestState = .error
                 }
             }, receiveValue: { result in

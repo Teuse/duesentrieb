@@ -5,13 +5,13 @@ class GithubViewModel: ObservableObject {
     private var cancelBag = CancelBag()
     private let client: GithubClient
     let user: User
-    private let repos = [
-        ("CarConfigurator", "scc-frontend"),
-        ("CarConfigurator", "scc-service"),
-        ("CarConfigurator", "viss"),
-        ("dh-io-sccs", "postman"),
-        ("dh-io-sccs", "sccs-wishlist"),
-    ]
+//        [
+//        ("CarConfigurator", "scc-frontend"),
+//        ("CarConfigurator", "scc-service"),
+//        ("CarConfigurator", "viss"),
+//        ("dh-io-sccs", "postman"),
+//        ("dh-io-sccs", "sccs-wishlist"),
+//    ]
     
     @Published private(set) var pullsViewModel = [RepositoryViewModel]()
 
@@ -33,8 +33,16 @@ class GithubViewModel: ObservableObject {
         self.client = client
         self.user = user
         
-        repos.forEach{ self.addRepo(org: $0.0, repo: $0.1) }
+        AppSettings.repoPaths.forEach{ self.addRepo(repoPath: $0) }
         triggerUpdate()
+        
+        AppNotifications.addRepositoryPublisher()
+            .sink(receiveValue: { self.addRepo(repoPath: $0) })
+            .store(in: cancelBag)
+        
+        AppNotifications.deleteRepositoryPublisher()
+            .sink(receiveValue: { self.deleteRepo(repoPath: $0) })
+            .store(in: cancelBag)
         
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             self.triggerUpdate()
@@ -47,12 +55,17 @@ class GithubViewModel: ObservableObject {
         pullsViewModel.forEach{ $0.triggerUpdate() }
     }
     
-    private func addRepo(org: String, repo: String) {
-        let pulls = RepositoryViewModel(user: user, client: client, org: org, repo: repo)
+    private func addRepo(repoPath: RepositoryPath) {
+        let pulls = RepositoryViewModel(user: user, client: client,
+                                        repoPath: repoPath)
         pullsViewModel.append(pulls)
         
         pulls.objectWillChange
             .sink(receiveValue: { self.objectWillChange.send() })
             .store(in: cancelBag)
+    }
+    
+    private func deleteRepo(repoPath: RepositoryPath) {
+        pullsViewModel.removeAll(where: { $0.repoPath.uuid == repoPath.uuid })
     }
 }
