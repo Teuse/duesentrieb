@@ -19,9 +19,9 @@ struct RootView: View {
                 Text("Error")
             }
             else if settingsShown {
-                SettingsView(shown: $settingsShown)
+                SettingsView(viewModel: viewModel, shown: $settingsShown)
             }
-            else if let vm = viewModel.reposViewModel {
+            else if let vm = viewModel.gitViewModel {
                 ReposView(viewModel: vm, settingsShown: $settingsShown)
             }
         }

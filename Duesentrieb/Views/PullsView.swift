@@ -17,7 +17,7 @@ struct PullsView: View {
         GeometryReader { geometry in
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(viewModel.pullsViewModel, id: \.uuid) { repo in
+                    ForEach(viewModel.reposViewModel) { repo in
                         
                         section(repo: repo)
                             .frame(height: 18)

@@ -10,19 +10,19 @@ class RootViewModel: ObservableObject {
     private var user: User?
     
     @Published private(set) var requestState = RequestState.unknown
-    @Published private(set) var reposViewModel: GithubViewModel?
+    @Published private(set) var gitViewModel: GithubViewModel?
     
     var needOnboarding: Bool {
         return client == nil
     }
     
     var myPullRequestsCount: Int {
-        guard let model = reposViewModel else { return 0 }
+        guard let model = gitViewModel else { return 0 }
         return model.myPullRequests.count
     }
     
     var myReviewRequestsCount: Int {
-        guard let model = reposViewModel else { return 0 }
+        guard let model = gitViewModel else { return 0 }
         return model.myReviewRequests.count
     }
     
@@ -37,7 +37,7 @@ class RootViewModel: ObservableObject {
         self.user = user
         self.requestState = .done
         
-        reposViewModel = GithubViewModel(client: client, user: user)
+        gitViewModel = GithubViewModel(client: client, user: user)
     }
     
     private func onFetchError(error: Error, client: GithubClient) {

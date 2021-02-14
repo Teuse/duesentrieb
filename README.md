@@ -14,12 +14,9 @@ Bevor you build the app, you must setup the github url and your branches. Furthe
 * Here, you need to create a access token. Make sure to copy the token because you wont be able to get the token again.
 * You will need the token in the next step
 
-### Build Xcode
+### Buil Xcode
 
-You need to setup the repositories you want to see in the app.
-Go to 'GithubViewModel' and change the 'repos' array for your needs
-
-You might also need to adjust the Team, Certificate and bundle identifier. 
+You might need to adjust the Team, Certificate and bundle identifier. 
 
 -> Now build the app and enjoy
 

@@ -8,7 +8,7 @@ enum PullRequestType {
     case unknown
 }
 
-class PullRequestViewModel: ObservableObject {
+class PullRequestViewModel: ObservableObject, Identifiable {
     let uuid = UUID()
     let user: User
     

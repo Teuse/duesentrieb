@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var shown: Bool
+    @ObservedObject var viewModel: RootViewModel
     
-    @ObservedObject private var viewModel = SettingsViewModel()
+    @Binding var shown: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -13,7 +13,11 @@ struct SettingsView: View {
             GithubSettingsView(applyText: "Apply and restart App")
                 .padding([.leading, .trailing, .bottom])
             
-            ReposSettingsView(viewModel: viewModel)
+            if let model = viewModel.gitViewModel {
+                ReposSettingsView(viewModel: model)
+            } else {
+                Text("Can't connect to github")
+            }
         }
     }
     
@@ -40,11 +44,5 @@ struct SettingsView: View {
                 .frame(height: 1)
                 .padding(.trailing, 50)
         }
-    }
-}
-
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(shown: .constant(true))
     }
 }

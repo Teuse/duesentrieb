@@ -18,7 +18,6 @@
 		33A0D54F25D7E2900067D904 /* ReposSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D54E25D7E2900067D904 /* ReposSettingsView.swift */; };
 		33A0D55225D8FEDE0067D904 /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55125D8FEDE0067D904 /* AppNotifications.swift */; };
 		33A0D55525D900560067D904 /* RepositoryPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55425D900560067D904 /* RepositoryPath.swift */; };
-		33A0D55825D901B10067D904 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55725D901B10067D904 /* SettingsViewModel.swift */; };
 		33B25CA225D11926008D6F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B25CA125D11926008D6F29 /* AppDelegate.swift */; };
 		33B25CA625D11926008D6F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B25CA525D11926008D6F29 /* Assets.xcassets */; };
 		33B25CA925D11926008D6F29 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B25CA825D11926008D6F29 /* Preview Assets.xcassets */; };
@@ -56,7 +55,6 @@
 		33A0D54E25D7E2900067D904 /* ReposSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposSettingsView.swift; sourceTree = "<group>"; };
 		33A0D55125D8FEDE0067D904 /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
 		33A0D55425D900560067D904 /* RepositoryPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryPath.swift; sourceTree = "<group>"; };
-		33A0D55725D901B10067D904 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		33B25C9E25D11926008D6F29 /* Duesentrieb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duesentrieb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B25CA125D11926008D6F29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33B25CA525D11926008D6F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				33B25CBC25D119B3008D6F29 /* GithubViewModel.swift */,
 				33B25CBB25D119B3008D6F29 /* RepositoryViewModel.swift */,
 				33C3792C25D28F9700DABBCA /* PullRequestViewModel.swift */,
-				33A0D55725D901B10067D904 /* SettingsViewModel.swift */,
 			);
 			path = AppState;
 			sourceTree = "<group>";
@@ -321,7 +318,6 @@
 				33A0D53625D6D67E0067D904 /* MergableIndication.swift in Sources */,
 				33B25CD925D119BE008D6F29 /* DateFormatterExtension.swift in Sources */,
 				33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */,
-				33A0D55825D901B10067D904 /* SettingsViewModel.swift in Sources */,
 				33B25CE525D17C8D008D6F29 /* PullsView.swift in Sources */,
 				33B25CD425D119BE008D6F29 /* User.swift in Sources */,
 				33A0D54A25D7DB5B0067D904 /* GithubSettingsView.swift in Sources */,

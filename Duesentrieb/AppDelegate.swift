@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private var separator: String {
-        if let rvm = rootViewModel.reposViewModel, rvm.hasError {
+        if let rvm = rootViewModel.gitViewModel, rvm.hasError {
             return "⚠️"
         }
         return " | "
@@ -72,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
-                rootViewModel.reposViewModel?.triggerUpdate()
+                rootViewModel.gitViewModel?.triggerUpdate()
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 NSApplication.shared.activate(ignoringOtherApps: true)

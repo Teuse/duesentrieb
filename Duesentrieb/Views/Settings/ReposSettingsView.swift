@@ -1,15 +1,21 @@
 import SwiftUI
 
 struct ReposSettingsView: View {
-    @ObservedObject var viewModel: SettingsViewModel
+    @ObservedObject var viewModel: GithubViewModel
     
     @State private var org = ""
     @State private var repo = ""
     
-    var canAddRepo: Bool { org.isEmpty || repo.isEmpty }
+    var canAddRepo: Bool { !org.isEmpty && !repo.isEmpty }
     
     func addRepoAction() {
-        viewModel.addRepository(org: org, repo: repo)
+        guard canAddRepo else { return }
+        let path = RepositoryPath(org: org, repo: repo)
+        viewModel.addRepo(repoPath: path)
+    }
+    
+    func deleteRepoAction(repoPath: RepositoryPath) {
+        viewModel.deleteRepo(repoPath: repoPath)
     }
     
     var body: some View {
@@ -31,11 +37,10 @@ struct ReposSettingsView: View {
         GeometryReader { geometry in
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(viewModel.repoPaths, id: \.uuid) { repoPath in
-                        row(repo: repoPath)
-                        //                Text(repoPath.pathString)
+                    ForEach(viewModel.reposViewModel) { repoViewModel in
+                        row(repoViewModel: repoViewModel)
                         
-                        if repoPath.uuid != viewModel.repoPaths.last?.uuid {
+                        if repoViewModel.uuid != viewModel.reposViewModel.last?.uuid {
                             Rectangle().fill(Color.black).frame(height: 1).opacity(0.7)
                         }
                     }
@@ -53,16 +58,19 @@ struct ReposSettingsView: View {
             TextField("org", text: $org)
             TextField("repo", text: $repo)
             Spacer()
-            LargeButton(text: "Add Repo", disabled: canAddRepo, action: addRepoAction)
+            LargeButton(text: "Add Repo", disabled: !canAddRepo, action: addRepoAction)
         }
     }
     
-    func row(repo: RepositoryPath) -> some View {
+    func row(repoViewModel: RepositoryViewModel) -> some View {
         HStack {
-            Text(repo.pathString)
+            if repoViewModel.requestState == .error {
+                Text("⚠️")
+            }
+            Text(repoViewModel.repoPath.pathString)
             Spacer()
             
-            Button(action: { viewModel.deleteRepository(repoPath: repo) }) {
+            Button(action: { deleteRepoAction(repoPath: repoViewModel.repoPath) }) {
                 Image("DustbinIcon")
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)

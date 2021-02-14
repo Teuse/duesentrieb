@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-class RepositoryViewModel: ObservableObject {
+class RepositoryViewModel: ObservableObject, Identifiable {
     
     @Published private(set) var pullRequests = [PullRequestViewModel]()
     @Published private(set) var requestState = RequestState.unknown
