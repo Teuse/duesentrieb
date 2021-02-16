@@ -1,30 +1,43 @@
 import SwiftUI
 
+enum AppPage: Int {
+    case main, settings
+}
+
 struct RootView: View {
     @ObservedObject var viewModel: RootViewModel
     
-    @State var settingsShown = false
+    @State var currentPage = AppPage.main
     
     var body: some View {
         ZStack {
-            if viewModel.needOnboarding {
-                GithubSettingsView(applyText: "Apply")
-                    .padding()
+            if viewModel.connectionState == .done {
+                mainViews
             }
-            else if viewModel.requestState == .requesting {
-                ActivityIndicator()
-                    .frame(width: 50, height: 50)
-            }
-            else if viewModel.requestState == .error {
-                Text("Error")
-            }
-            else if settingsShown {
-                SettingsView(viewModel: viewModel, shown: $settingsShown)
-            }
-            else if let vm = viewModel.gitViewModel {
-                ReposView(viewModel: vm, settingsShown: $settingsShown)
+            else {
+                ConnectView(viewModel: viewModel)
             }
         }
-        .frame(width: 400, height: 300)
+        .frame(width: 500, height: 400)
+    }
+    
+    var mainViews: some View {
+        HStack(spacing: 0) {
+            SideBar(page: $currentPage) {
+                viewModel.clickQuitApp()
+            }
+            
+            if currentPage == .settings {
+                SettingsView(viewModel: viewModel) {
+                    currentPage = .main
+                }
+            }
+            else if let vm = viewModel.gitViewModel, currentPage == .main {
+                ReposView(viewModel: vm)
+            }
+            else {
+                Text("What happend here?")
+            }
+        }
     }
 }

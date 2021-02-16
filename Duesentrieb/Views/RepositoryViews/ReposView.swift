@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ReposView: View {
     @ObservedObject var viewModel: GithubViewModel
-    @Binding var settingsShown: Bool
     
     @State var page: Int = 0
     
@@ -11,12 +10,8 @@ struct ReposView: View {
             HStack(spacing: 0) {
                 ViewPicker(selection: $page)
                     .padding(.trailing)
-                
-                Button(action: { settingsShown.toggle() }) {
-                    Text("⚙").font(.system(size: 36)).offset(y: -2)
-                }.buttonStyle(PlainButtonStyle())
             }
-            .padding([.leading, .trailing, .top])
+            .padding()
             
             PullsView(viewModel: viewModel, page: page)
             

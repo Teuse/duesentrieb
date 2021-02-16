@@ -36,10 +36,3 @@ struct ActivityIndicator: View {
         .onDisappear { self.isAnimating = false }
     }
 }
-
-struct ActivityIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityIndicator()
-            .edgesIgnoringSafeArea(.all)
-    }
-}

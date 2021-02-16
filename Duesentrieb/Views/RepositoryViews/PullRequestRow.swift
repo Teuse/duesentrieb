@@ -30,9 +30,9 @@ struct PullRequestRow: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    reviewsIndicators
-                                    Spacer().frame(width: 15)
                                     commentsIndicator
+                                    Spacer().frame(width: 40)
+                                    reviewsIndicators
                                     Spacer()
                                 }
                                 .offset(x: 70)

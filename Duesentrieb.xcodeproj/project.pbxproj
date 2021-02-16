@@ -11,13 +11,15 @@
 		33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFE25D6CB320015BB00 /* AppColor.swift */; };
 		334D7BFF25D30C3F002B547C /* ApprovedIndication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334D7BFE25D30C3F002B547C /* ApprovedIndication.swift */; };
 		334D7C0425D3B60C002B547C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334D7C0325D3B60C002B547C /* SettingsView.swift */; };
+		339208E925DA79DF009B5F6C /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339208E825DA79DF009B5F6C /* MenuBarIcon.swift */; };
 		339E60D325D2625E0052B238 /* ReposView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E60D225D2625E0052B238 /* ReposView.swift */; };
 		33A0D53625D6D67E0067D904 /* MergableIndication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D53525D6D67E0067D904 /* MergableIndication.swift */; };
 		33A0D53E25D714100067D904 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D53D25D714100067D904 /* AppSettings.swift */; };
-		33A0D54A25D7DB5B0067D904 /* GithubSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D54925D7DB5B0067D904 /* GithubSettingsView.swift */; };
 		33A0D54F25D7E2900067D904 /* ReposSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D54E25D7E2900067D904 /* ReposSettingsView.swift */; };
 		33A0D55225D8FEDE0067D904 /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55125D8FEDE0067D904 /* AppNotifications.swift */; };
 		33A0D55525D900560067D904 /* RepositoryPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55425D900560067D904 /* RepositoryPath.swift */; };
+		33A0D55D25D99B8D0067D904 /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D55C25D99B8D0067D904 /* ConnectView.swift */; };
+		33A0D56525D9A0900067D904 /* RequestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D56425D9A0900067D904 /* RequestState.swift */; };
 		33B25CA225D11926008D6F29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B25CA125D11926008D6F29 /* AppDelegate.swift */; };
 		33B25CA625D11926008D6F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B25CA525D11926008D6F29 /* Assets.xcassets */; };
 		33B25CA925D11926008D6F29 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B25CA825D11926008D6F29 /* Preview Assets.xcassets */; };
@@ -41,6 +43,9 @@
 		33C3792625D2817100DABBCA /* PullRequestRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792525D2817100DABBCA /* PullRequestRow.swift */; };
 		33C3792D25D28F9700DABBCA /* PullRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792C25D28F9700DABBCA /* PullRequestViewModel.swift */; };
 		33C3793025D29ECD00DABBCA /* PullEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792F25D29ECD00DABBCA /* PullEntry.swift */; };
+		33EB143525DA9DB9005451B4 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB143425DA9DB9005451B4 /* SideBar.swift */; };
+		33EB143F25DAB930005451B4 /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB143E25DAB930005451B4 /* ProfileSettingsView.swift */; };
+		33EB144325DABB28005451B4 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB144225DABB28005451B4 /* RemoteImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,13 +53,15 @@
 		33322AFE25D6CB320015BB00 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		334D7BFE25D30C3F002B547C /* ApprovedIndication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedIndication.swift; sourceTree = "<group>"; };
 		334D7C0325D3B60C002B547C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		339208E825DA79DF009B5F6C /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
 		339E60D225D2625E0052B238 /* ReposView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposView.swift; sourceTree = "<group>"; };
 		33A0D53525D6D67E0067D904 /* MergableIndication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergableIndication.swift; sourceTree = "<group>"; };
 		33A0D53D25D714100067D904 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		33A0D54925D7DB5B0067D904 /* GithubSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSettingsView.swift; sourceTree = "<group>"; };
 		33A0D54E25D7E2900067D904 /* ReposSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposSettingsView.swift; sourceTree = "<group>"; };
 		33A0D55125D8FEDE0067D904 /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
 		33A0D55425D900560067D904 /* RepositoryPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryPath.swift; sourceTree = "<group>"; };
+		33A0D55C25D99B8D0067D904 /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
+		33A0D56425D9A0900067D904 /* RequestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestState.swift; sourceTree = "<group>"; };
 		33B25C9E25D11926008D6F29 /* Duesentrieb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duesentrieb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B25CA125D11926008D6F29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33B25CA525D11926008D6F29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +88,9 @@
 		33C3792525D2817100DABBCA /* PullRequestRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestRow.swift; sourceTree = "<group>"; };
 		33C3792C25D28F9700DABBCA /* PullRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestViewModel.swift; sourceTree = "<group>"; };
 		33C3792F25D29ECD00DABBCA /* PullEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullEntry.swift; sourceTree = "<group>"; };
+		33EB143425DA9DB9005451B4 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
+		33EB143E25DAB930005451B4 /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
+		33EB144225DABB28005451B4 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +109,7 @@
 			children = (
 				33B25CD025D119BE008D6F29 /* ActivityIndicator.swift */,
 				33322AFB25D6CAD50015BB00 /* LargeButton.swift */,
+				33EB144225DABB28005451B4 /* RemoteImage.swift */,
 			);
 			path = GenericViews;
 			sourceTree = "<group>";
@@ -126,10 +137,19 @@
 			isa = PBXGroup;
 			children = (
 				334D7C0325D3B60C002B547C /* SettingsView.swift */,
-				33A0D54925D7DB5B0067D904 /* GithubSettingsView.swift */,
+				33EB143E25DAB930005451B4 /* ProfileSettingsView.swift */,
 				33A0D54E25D7E2900067D904 /* ReposSettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		33A0D56325D9A0780067D904 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				33A0D56425D9A0900067D904 /* RequestState.swift */,
+				33A0D55425D900560067D904 /* RepositoryPath.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		33B25C9525D11926008D6F29 = {
@@ -151,6 +171,7 @@
 		33B25CA025D11926008D6F29 /* Duesentrieb */ = {
 			isa = PBXGroup;
 			children = (
+				33A0D56325D9A0780067D904 /* Models */,
 				33A0D54525D7D64B0067D904 /* AppState */,
 				33B25CCD25D119BE008D6F29 /* Views */,
 				33B25CC125D119BE008D6F29 /* Github */,
@@ -159,6 +180,7 @@
 				33B25CA125D11926008D6F29 /* AppDelegate.swift */,
 				33A0D55125D8FEDE0067D904 /* AppNotifications.swift */,
 				33A0D53D25D714100067D904 /* AppSettings.swift */,
+				339208E825DA79DF009B5F6C /* MenuBarIcon.swift */,
 			);
 			path = Duesentrieb;
 			sourceTree = "<group>";
@@ -201,7 +223,6 @@
 				33B25CC525D119BE008D6F29 /* Commit.swift */,
 				33B25CC625D119BE008D6F29 /* User.swift */,
 				33B25CC725D119BE008D6F29 /* Repository.swift */,
-				33A0D55425D900560067D904 /* RepositoryPath.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -219,10 +240,20 @@
 		33B25CCD25D119BE008D6F29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				339E60CF25D25F400052B238 /* GenericViews */,
+				33EB143825DA9DC2005451B4 /* RepositoryViews */,
 				33A0D54D25D7E27C0067D904 /* Settings */,
+				339E60CF25D25F400052B238 /* GenericViews */,
 				33A0D53B25D705F90067D904 /* Utils */,
 				33B25CCF25D119BE008D6F29 /* RootView.swift */,
+				33EB143425DA9DB9005451B4 /* SideBar.swift */,
+				33A0D55C25D99B8D0067D904 /* ConnectView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		33EB143825DA9DC2005451B4 /* RepositoryViews */ = {
+			isa = PBXGroup;
+			children = (
 				339E60D225D2625E0052B238 /* ReposView.swift */,
 				33B25CE425D17C8D008D6F29 /* PullsView.swift */,
 				33C3792525D2817100DABBCA /* PullRequestRow.swift */,
@@ -230,7 +261,7 @@
 				334D7BFE25D30C3F002B547C /* ApprovedIndication.swift */,
 				33A0D53525D6D67E0067D904 /* MergableIndication.swift */,
 			);
-			path = Views;
+			path = RepositoryViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,11 +335,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				339E60D325D2625E0052B238 /* ReposView.swift in Sources */,
+				339208E925DA79DF009B5F6C /* MenuBarIcon.swift in Sources */,
 				33B25CDA25D119BE008D6F29 /* ViewPicker.swift in Sources */,
 				33B25CBF25D119B3008D6F29 /* GithubViewModel.swift in Sources */,
 				33B25CBD25D119B3008D6F29 /* RootViewModel.swift in Sources */,
 				33B25CD325D119BE008D6F29 /* Commit.swift in Sources */,
 				33B25CBE25D119B3008D6F29 /* RepositoryViewModel.swift in Sources */,
+				33A0D56525D9A0900067D904 /* RequestState.swift in Sources */,
 				33A0D55525D900560067D904 /* RepositoryPath.swift in Sources */,
 				33A0D55225D8FEDE0067D904 /* AppNotifications.swift in Sources */,
 				334D7C0425D3B60C002B547C /* SettingsView.swift in Sources */,
@@ -320,7 +353,6 @@
 				33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */,
 				33B25CE525D17C8D008D6F29 /* PullsView.swift in Sources */,
 				33B25CD425D119BE008D6F29 /* User.swift in Sources */,
-				33A0D54A25D7DB5B0067D904 /* GithubSettingsView.swift in Sources */,
 				33B25CD125D119BE008D6F29 /* PullRequest.swift in Sources */,
 				33B25CA225D11926008D6F29 /* AppDelegate.swift in Sources */,
 				33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */,
@@ -329,10 +361,14 @@
 				33B25CDC25D119BE008D6F29 /* ActivityIndicator.swift in Sources */,
 				33A0D54F25D7E2900067D904 /* ReposSettingsView.swift in Sources */,
 				33C3793025D29ECD00DABBCA /* PullEntry.swift in Sources */,
+				33EB144325DABB28005451B4 /* RemoteImage.swift in Sources */,
 				33B25CD225D119BE008D6F29 /* Review.swift in Sources */,
 				33C3792625D2817100DABBCA /* PullRequestRow.swift in Sources */,
+				33EB143525DA9DB9005451B4 /* SideBar.swift in Sources */,
 				33A0D53E25D714100067D904 /* AppSettings.swift in Sources */,
 				33B25CD525D119BE008D6F29 /* Repository.swift in Sources */,
+				33EB143F25DAB930005451B4 /* ProfileSettingsView.swift in Sources */,
+				33A0D55D25D99B8D0067D904 /* ConnectView.swift in Sources */,
 				33B25CDB25D119BE008D6F29 /* RootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

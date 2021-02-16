@@ -13,6 +13,7 @@ class GithubViewModel: ObservableObject {
 //        ("dh-io-sccs", "sccs-wishlist"),
 //    ]
     
+    @Published private(set) var requestState = RequestState.unknown
     @Published private(set) var reposViewModel = [RepositoryViewModel]()
 
     var myPullRequests: [PullRequest] {
@@ -55,9 +56,31 @@ class GithubViewModel: ObservableObject {
         pulls.objectWillChange
             .sink(receiveValue: { self.objectWillChange.send() })
             .store(in: cancelBag)
+        
+        AppSettings.repoPaths = reposViewModel.map{ $0.repoPath }
     }
     
     func deleteRepo(repoPath: RepositoryPath) {
         reposViewModel.removeAll(where: { $0.repoPath.uuid == repoPath.uuid })
+        
+        AppSettings.repoPaths = reposViewModel.map{ $0.repoPath }
+    }
+    
+    func checkRepo(repoPath: RepositoryPath, callback: @escaping (Bool) -> Void) {
+        requestState = .requesting
+
+        client.listOpenPRs(org: repoPath.org, repo: repoPath.repo)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Error: failed to fetch PRs (\(repoPath.pathString)): \(error.localizedDescription)")
+                    self.requestState = .error
+                    callback(false)
+                }
+            }, receiveValue: { _ in
+                self.requestState = .done
+                callback(true)
+            })
+            .store(in: cancelBag)
     }
 }

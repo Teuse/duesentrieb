@@ -1,19 +1,14 @@
 import Foundation
-
-enum RequestState {
-    case unknown, requesting, error, done
-}
+import SwiftUI
 
 class RootViewModel: ObservableObject {
     private var cancelBag = CancelBag()
-    private let client: GithubClient?
-    private var user: User?
     
-    @Published private(set) var requestState = RequestState.unknown
+    @Published private(set) var connectionState = RequestState.unknown
     @Published private(set) var gitViewModel: GithubViewModel?
     
-    var needOnboarding: Bool {
-        return client == nil
+    init() {
+        clickConnect(gitUrl: AppSettings.githubUrl, token: AppSettings.githubToken)
     }
     
     var myPullRequestsCount: Int {
@@ -25,42 +20,54 @@ class RootViewModel: ObservableObject {
         guard let model = gitViewModel else { return 0 }
         return model.myReviewRequests.count
     }
-    
-    init(client: GithubClient?) {
-        self.client = client
-        if let client = client {
-            fetchUser(client: client)
-        }
-    }
-    
-    private func received(user: User, client: GithubClient) {
-        self.user = user
-        self.requestState = .done
+
+    func clickConnect(gitUrl: String, token: String) {
+        guard connectionState != .requesting else { return }
         
-        gitViewModel = GithubViewModel(client: client, user: user)
+        let client = GithubClient(session: URLSession.shared,
+                                  baseUrl: gitUrl, token: token)
+        
+        connectionState = .requesting
+        fetchUser(client: client)
     }
     
-    private func onFetchError(error: Error, client: GithubClient) {
-        print("Couldn't fetch user. Error: \(error)")
-        self.requestState = .error
-        
-        Timer.scheduledTimer(withTimeInterval: 8, repeats: false) { _ in
-            self.fetchUser(client: client)
-        }
+    func clickDisconnect() {
+        AppSettings.githubUrl = ""
+        AppSettings.githubToken = ""
+        connectionState = .unknown
+        gitViewModel = nil
     }
+    
+    func clickQuitApp() {
+        NSApplication.shared.terminate(nil)
+    }
+    
+    //MARK:- Private Functions
     
     private func fetchUser(client: GithubClient) {
-        requestState = .requesting
         client.loginUser()
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 
                 if case let .failure(error) = completion {
-                    self.onFetchError(error: error, client: client)
+                    self.onFetchError(error: error)
                 }
             }, receiveValue: { user in
-                self.received(user: user, client: client)
+                self.didFetch(user: user, client: client)
             })
             .store(in: cancelBag)
+    }
+    
+    private func didFetch(user: User, client: GithubClient) {
+        self.connectionState = .done
+        AppSettings.githubUrl = client.baseUrl
+        AppSettings.githubToken = client.token
+        
+        gitViewModel = GithubViewModel(client: client, user: user)
+    }
+    
+    private func onFetchError(error: Error) {
+        print("Couldn't fetch user. Error: \(error)")
+        connectionState = .error
     }
 }

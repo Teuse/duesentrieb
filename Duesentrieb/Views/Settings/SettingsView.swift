@@ -3,18 +3,24 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: RootViewModel
     
-    @Binding var shown: Bool
+    let closeAction: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
             headline
-                .padding()
+                .padding([.leading, .trailing, .top])
             
-            GithubSettingsView(applyText: "Apply and restart App")
-                .padding([.leading, .trailing, .bottom])
+            if let user = viewModel.gitViewModel?.user {
+                ProfileSettingsView(user: user, disconnectAction: viewModel.clickDisconnect)
+                    .padding([.leading, .trailing])
+            }
+            
+            headline2
+                .padding()
             
             if let model = viewModel.gitViewModel {
                 ReposSettingsView(viewModel: model)
+                    .padding([.leading, .trailing])
             } else {
                 Text("Can't connect to github")
             }
@@ -24,19 +30,27 @@ struct SettingsView: View {
     var headline: some View {
         VStack(spacing: 5) {
             HStack(spacing: 0) {
-                Text("Settings").font(.title)
-                
+                Text("User Profile").font(.title)
+
                 Spacer()
                 
-                LargeButton(text: "Quit App") {
-                    NSApplication.shared.terminate(nil)
-                }.frame(width: 100)
-                
-                Spacer()
-                
-                Button(action: { shown.toggle() }) {
+                Button(action: closeAction) {
                     Text("Ⅹ").font(.system(size: 25))
                 }.buttonStyle(PlainButtonStyle())
+            }
+            .frame(height: 25)
+            
+            Rectangle().fill(Color.black)
+                .frame(height: 1)
+                .padding(.trailing, 50)
+        }
+    }
+    
+    var headline2: some View {
+        VStack(spacing: 5) {
+            HStack(spacing: 0) {
+                Text("Manage Repositories").font(.title)
+                Spacer()
             }
             .frame(height: 25)
             

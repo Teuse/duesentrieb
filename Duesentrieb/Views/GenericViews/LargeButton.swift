@@ -18,24 +18,26 @@ struct LargeButton: View {
     }
     
     var body: some View {
-        ZStack {
-            Button(action: action) {
+        
+        Button(action: action) {
+            ZStack {
+                Rectangle().fill(disabled ? AppColor.primaryDark : AppColor.primary)
+                
                 HStack(spacing: 0) {
                     Spacer()
                     VStack(spacing: 0) {
                         Spacer()
                         Text(text)
-//                            .font(.headline)
+                            //                            .font(.headline)
                             .foregroundColor(Color.black)
                         Spacer()
                     }
                     Spacer()
                 }
-                
-            }.buttonStyle(PlainButtonStyle())
+            }
         }
+        .buttonStyle(PlainButtonStyle())
         .frame(height: 25)
-        .background(disabled ? AppColor.primaryDark : AppColor.primary)
         .cornerRadius(3.0)
         .disabled(disabled)
     }

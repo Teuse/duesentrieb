@@ -11,7 +11,11 @@ struct ReposSettingsView: View {
     func addRepoAction() {
         guard canAddRepo else { return }
         let path = RepositoryPath(org: org, repo: repo)
-        viewModel.addRepo(repoPath: path)
+        viewModel.checkRepo(repoPath: path) { ok in
+            if ok {
+                viewModel.addRepo(repoPath: path)
+            }
+        }
     }
     
     func deleteRepoAction(repoPath: RepositoryPath) {
@@ -19,51 +23,63 @@ struct ReposSettingsView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Manage Repositories").font(.headline).padding([.leading, .trailing])
-            Rectangle().fill(Color.black).frame(height: 1).padding([.leading, .trailing])
+        VStack(spacing: 0) {
+            addRepo
             
-            HStack(spacing: 5) {
-                repoList.padding(.top, 5)
-                
-                addRepo
-                    .frame(width: 100)
-                    .padding(.bottom)
-            }.padding([.leading, .trailing])
+            if viewModel.requestState == .error {
+                Spacer().frame(height: 4)
+                HStack {
+                Text("Failed to add Repository.")
+                    .foregroundColor(Color.red)
+                    Spacer()
+                }
+            }
+            
+            Spacer().frame(height: 10)
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    repoList
+                    Rectangle() // Fix a bug in ScrollView
+                        .frame(width: geometry.size.width, height: 0.01)
+                }
+            }
         }
     }
     
     var repoList: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(viewModel.reposViewModel) { repoViewModel in
-                        row(repoViewModel: repoViewModel)
-                        
-                        if repoViewModel.uuid != viewModel.reposViewModel.last?.uuid {
-                            Rectangle().fill(Color.black).frame(height: 1).opacity(0.7)
-                        }
-                    }
-                }
+        VStack(spacing: 0) {
+            ForEach(viewModel.reposViewModel) { repoViewModel in
+                row(repoViewModel: repoViewModel)
                 
-                Rectangle() // Fix a bug in ScrollView
-                    .frame(width: geometry.size.width, height: 0.01)
+                if repoViewModel.uuid != viewModel.reposViewModel.last?.uuid {
+                    Rectangle().fill(Color.black).frame(height: 1).opacity(0.7)
+                }
             }
         }
     }
     
     var addRepo: some View {
-        VStack(spacing: 5) {
-            Spacer()
+        HStack {
             TextField("org", text: $org)
             TextField("repo", text: $repo)
-            Spacer()
-            LargeButton(text: "Add Repo", disabled: !canAddRepo, action: addRepoAction)
+            
+            Spacer().frame(width: 50)
+            
+            if viewModel.requestState == .requesting {
+                ActivityIndicator()
+                    .frame(width: 100, height: 20)
+            }
+            else {
+                LargeButton(text: "Add Repo", disabled: !canAddRepo, action: addRepoAction)
+                    .frame(width: 100)
+            }
         }
     }
     
     func row(repoViewModel: RepositoryViewModel) -> some View {
         HStack {
+            Spacer().frame(width: 12)
             if repoViewModel.requestState == .error {
                 Text("⚠️")
             }
@@ -80,6 +96,6 @@ struct ReposSettingsView: View {
             .padding(.trailing)
             
         }
-        .frame(height: 18)
+        .frame(height: 22)
     }
 }
