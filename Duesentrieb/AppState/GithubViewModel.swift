@@ -5,13 +5,6 @@ class GithubViewModel: ObservableObject {
     private var cancelBag = CancelBag()
     private let client: GithubClient
     let user: User
-//        [
-//        ("CarConfigurator", "scc-frontend"),
-//        ("CarConfigurator", "scc-service"),
-//        ("CarConfigurator", "viss"),
-//        ("dh-io-sccs", "postman"),
-//        ("dh-io-sccs", "sccs-wishlist"),
-//    ]
     
     @Published private(set) var requestState = RequestState.unknown
     @Published private(set) var reposViewModel = [RepositoryViewModel]()
@@ -21,7 +14,7 @@ class GithubViewModel: ObservableObject {
     }
     
     var myReviewRequests: [PullRequest] {
-        return reposViewModel.flatMap { $0.pullRequests(toBeReviewedBy: user) }.map{ $0.pullRequest }
+        return reposViewModel.flatMap { $0.openPullRequests(toBeReviewedBy: user) }.map{ $0.pullRequest }
     }
     
     var hasError: Bool {

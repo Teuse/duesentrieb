@@ -48,6 +48,7 @@ struct PullRequestRow: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(height: 45)
+        .opacity(viewModel.type == .didReview ? 0.3 : 1)
     }
     
     var reviewsIndicators: some View {

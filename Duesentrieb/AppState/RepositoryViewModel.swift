@@ -32,6 +32,10 @@ class RepositoryViewModel: ObservableObject, Identifiable {
         return pullRequests.filter({ $0.type == .reviewing || $0.type == .didReview })
     }
     
+    func openPullRequests(toBeReviewedBy user: User) -> [PullRequestViewModel] {
+        return pullRequests.filter({ $0.type == .reviewing })
+    }
+    
     //MARK:- Private Functions
     
     private func didFetchDetails(_ details: [(PullRequest, [Review])]) {

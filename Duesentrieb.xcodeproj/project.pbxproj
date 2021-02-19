@@ -43,6 +43,7 @@
 		33C3792625D2817100DABBCA /* PullRequestRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792525D2817100DABBCA /* PullRequestRow.swift */; };
 		33C3792D25D28F9700DABBCA /* PullRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792C25D28F9700DABBCA /* PullRequestViewModel.swift */; };
 		33C3793025D29ECD00DABBCA /* PullEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3792F25D29ECD00DABBCA /* PullEntry.swift */; };
+		33E5DC7125DFA24500428669 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E5DC7025DFA24500428669 /* ArrayExtension.swift */; };
 		33EB143525DA9DB9005451B4 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB143425DA9DB9005451B4 /* SideBar.swift */; };
 		33EB143F25DAB930005451B4 /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB143E25DAB930005451B4 /* ProfileSettingsView.swift */; };
 		33EB144325DABB28005451B4 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EB144225DABB28005451B4 /* RemoteImage.swift */; };
@@ -88,6 +89,7 @@
 		33C3792525D2817100DABBCA /* PullRequestRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestRow.swift; sourceTree = "<group>"; };
 		33C3792C25D28F9700DABBCA /* PullRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestViewModel.swift; sourceTree = "<group>"; };
 		33C3792F25D29ECD00DABBCA /* PullEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullEntry.swift; sourceTree = "<group>"; };
+		33E5DC7025DFA24500428669 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		33EB143425DA9DB9005451B4 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
 		33EB143E25DAB930005451B4 /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		33EB144225DABB28005451B4 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				33B25CCA25D119BE008D6F29 /* CancelBag.swift */,
 				33B25CCB25D119BE008D6F29 /* RestClient.swift */,
 				33B25CCC25D119BE008D6F29 /* DateFormatterExtension.swift */,
+				33E5DC7025DFA24500428669 /* ArrayExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				33EB144325DABB28005451B4 /* RemoteImage.swift in Sources */,
 				33B25CD225D119BE008D6F29 /* Review.swift in Sources */,
 				33C3792625D2817100DABBCA /* PullRequestRow.swift in Sources */,
+				33E5DC7125DFA24500428669 /* ArrayExtension.swift in Sources */,
 				33EB143525DA9DB9005451B4 /* SideBar.swift in Sources */,
 				33A0D53E25D714100067D904 /* AppSettings.swift in Sources */,
 				33B25CD525D119BE008D6F29 /* Repository.swift in Sources */,
