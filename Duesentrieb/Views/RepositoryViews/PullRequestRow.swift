@@ -53,7 +53,7 @@ struct PullRequestRow: View {
     
     var reviewsIndicators: some View {
         HStack {
-            ForEach(viewModel.reviews.filter({$0.approved}), id: \.id) { review in
+            ForEach(viewModel.approvedReviews, id: \.id) { review in
                 ApprovedIndication(userName: review.user.login, approved: true)
             }
             ForEach(viewModel.pullRequest.requestedReviewers, id: \.id) { reviewer in
