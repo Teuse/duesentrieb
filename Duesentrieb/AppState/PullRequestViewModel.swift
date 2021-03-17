@@ -16,7 +16,7 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     @Published var reviews: [Review]
     
     var approvedReviews: [Review] {
-        let approved = reviews.filter{ $0.approved }
+        let approved = reviews.filter{ $0.state == .approved || $0.state == .changesRequested }
         return removeDuplicateUsers(from: approved)
     }
     
@@ -43,7 +43,7 @@ class PullRequestViewModel: ObservableObject, Identifiable {
         return .unknown
     }
     
-    var comments: [Review] { reviews.filter({ $0.isComment })}
+    var comments: [Review] { reviews.filter({ $0.state == .commented })}
     
     init(pullRequest: PullRequest, reviews: [Review], user: User) {
         self.pullRequest = pullRequest
@@ -59,7 +59,7 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     //MARK:- Private Functions
  
     private func isApproved(by user: User) -> Bool {
-        return reviews.contains(where: { $0.user.id == user.id && $0.approved })
+        return reviews.contains(where: { $0.user.id == user.id && $0.state == .approved })
     }
     
     private func removeDuplicateUsers(from reviews: [Review]) -> [Review] {

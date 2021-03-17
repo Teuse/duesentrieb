@@ -4,7 +4,7 @@ struct ApprovedIndication: View {
     @State private var showPopover: Bool = false
     
     let userName: String
-    let approved: Bool
+    let state: ReviewState
     
     var body: some View {
         approvedIcon
@@ -18,8 +18,10 @@ struct ApprovedIndication: View {
     
     var approvedIcon: some View {
         ZStack {
-            if approved {
+            if state == .approved {
                 Text("✓").font(.system(size: 15)).foregroundColor(.green)
+            } else if state == .changesRequested {
+                Text("±").font(.system(size: 17)).foregroundColor(.red).offset(y: -1)
             } else {
                 Text("🟡").font(.system(size: 6))
             }
