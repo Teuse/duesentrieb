@@ -38,4 +38,9 @@ struct RepositoryPath {
         self.org = org
         self.repo = repo
     }
+    
+    static func < (lhs: RepositoryPath, rhs: RepositoryPath) -> Bool {
+        return lhs.org.lowercased() < rhs.org.lowercased()
+            || (lhs.org.lowercased() == rhs.org.lowercased() && lhs.repo.lowercased() < rhs.repo.lowercased())
+    }
 }

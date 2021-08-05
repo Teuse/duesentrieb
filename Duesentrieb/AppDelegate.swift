@@ -2,7 +2,7 @@ import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private let statusBarItem = NSStatusBar.system.statusItem(withLength: 60)
+    private let statusBarItem = NSStatusBar.system.statusItem(withLength: 45)
     private let popover = NSPopover()
     
     private var rootViewModel: RootViewModel!

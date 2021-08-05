@@ -27,6 +27,7 @@ class GithubViewModel: ObservableObject {
         self.client = client
         self.user = user
         
+        AppSettings.repoPaths.sort(by: { $0 < $1 })
         AppSettings.repoPaths.forEach{ self.addRepo(repoPath: $0) }
         triggerUpdate()
         
@@ -45,6 +46,7 @@ class GithubViewModel: ObservableObject {
         let pulls = RepositoryViewModel(user: user, client: client,
                                         repoPath: repoPath)
         reposViewModel.append(pulls)
+        reposViewModel.sort(by: { $0.repoPath < $1.repoPath })
         
         pulls.objectWillChange
             .sink(receiveValue: { self.objectWillChange.send() })
