@@ -5,6 +5,7 @@ Düsentrieb is a MacOs MenuBar App for quick access to GitHub functionality!
 
 To build the app, you might need to update the bundle identifier, the team and/or the used certificate.
 
+
 Other than that, there are not special requirements to build the App... happy building.
 
 
