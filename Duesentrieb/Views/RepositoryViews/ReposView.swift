@@ -13,9 +13,13 @@ struct ReposView: View {
             }
             .padding()
             
-            PullsView(viewModel: viewModel, page: page)
+            if page == 0 {
+                PullsView(viewModel: viewModel, pullRequests: viewModel.reviewRequestViewModels)
+            } else {
+                PullsView(viewModel: viewModel, pullRequests: viewModel.pullRequestViewModels)
+            }
             
-            Spacer()       
+            Spacer()
         }
     }
 }

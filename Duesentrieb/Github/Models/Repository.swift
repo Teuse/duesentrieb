@@ -1,7 +1,10 @@
 import Foundation
 
-struct Repository: Codable {
-    let id: Int
+struct Repository {
+//    let id: String
     let name: String
-    let owner: User
+    
+    init(repo: StateQuery.Data.Viewer.PullRequest.Node.BaseRepository) {
+        self.name = repo.name
+    }
 }

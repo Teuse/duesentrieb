@@ -1,62 +1,57 @@
 import Foundation
 import Combine
+import SwiftUI
+import Apollo
+
+enum GithubError: Error {
+    case dataCorrupt
+}
 
 struct GithubClient {
-    private var cancelBag = CancelBag()
-    let urlSession: URLSession
+    typealias HTTPHeader = [String : String]
+    
+    let url: URL
     let token: String
-    let baseUrl: String
-    let header: RestClient.Header
+    private let apollo: ApolloClient
     
-    init(session: URLSession, baseUrl: String, token: String) {
-        self.urlSession = session
+    init(url: URL, token: String) {
+        self.url = url
         self.token = token
-        self.baseUrl = baseUrl
-        self.header = GithubClient.createHeader(token: token)
+        self.apollo = GithubClient.createApolloClient(url: url, token: token)
     }
-    
-    private static func createHeader(token: String) -> RestClient.Header {
-        let header: RestClient.Header = [
-            "Content-Type"    : "application/json",
-            "Authorization"   : "token \(token)",
-        ]
-        return header
+ 
+    func fetchState(completion: @escaping (User, [PullRequest])->(), error: @escaping (GithubError)->()) {
+        apollo.fetch(query: StateQuery()) { result in
+            guard let data = try? result.get().data, let pullRequestsNodes = data.viewer.pullRequests.nodes else { return error(.dataCorrupt) }
+            let user = User(viewer: data.viewer)
+            let pullRequests = pullRequestsNodes.compactMap {
+                PullRequest(pullRequest: $0)
+            }
+            completion(user, pullRequests)
+        }
     }
 }
 
 extension GithubClient {
     
-    func loginUser() -> AnyPublisher<User, BackendError> {
-        let url = URL(string: "\(baseUrl)/user")!
-        return RestClient.modelForRequest(method: .get, url: url, header: header, session: urlSession)
+    private static func createHeader(token: String) -> HTTPHeader {
+        let header: HTTPHeader = [
+            "Authorization"   : "token \(token)",
+        ]
+        return header
     }
     
-    func listOpenPRs(org: String, repo: String) -> AnyPublisher<[PullEntry], BackendError> {
-        let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls?state=open")!
-        return RestClient.arrayForRequest(method: .get, url: url, header: header, session: urlSession)
-    }
-    
-    func reviews(org: String, repo: String, pr: Int) -> AnyPublisher<[Review], BackendError> {
-        let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls/\(pr)/reviews")!
-        return RestClient.arrayForRequest(method: .get, url: url, header: header, session: urlSession)
-    }
-    
-    func pullRequest(org: String, repo: String, pr: Int) -> AnyPublisher<PullRequest, BackendError> {
-        let url = URL(string: "\(baseUrl)/repos/\(org)/\(repo)/pulls/\(pr)")!
-        return RestClient.modelForRequest(method: .get, url: url, header: header, session: urlSession)
-    }
-    
-    func pullRequestDetails(org: String, repo: String, prNumber: Int) -> AnyPublisher<(PullRequest, [Review]), BackendError> {
-        var pullRequest: PullRequest?
+    static func createApolloClient(url: URL, token: String) -> ApolloClient {
+        let cache = InMemoryNormalizedCache()
+        let store = ApolloStore(cache: cache)
         
-        return self.pullRequest(org: org, repo: repo, pr: prNumber)
-            .flatMap { pr -> AnyPublisher<[Review], BackendError> in
-                pullRequest = pr
-                return self.reviews(org: org, repo: repo, pr: prNumber)
-            }
-            .map { reviews in
-                return (pullRequest!, reviews)
-            }
-            .eraseToAnyPublisher()
+        let client = URLSessionClient()
+        let provider = NetworkInterceptorProvider(store: store, client: client)
+        
+        let requestChainTransport = RequestChainNetworkTransport(interceptorProvider: provider,
+                                                                 endpointURL: url,
+                                                                 additionalHeaders: createHeader(token: token))
+        
+        return ApolloClient(networkTransport: requestChainTransport, store: store)
     }
 }

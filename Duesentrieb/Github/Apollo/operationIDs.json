@@ -1,0 +1,10 @@
+{
+  "a9ce01c6157118b93636bf3d1be669204a6ba11523f11bb84e923571b1ce539f": {
+    "name": "User",
+    "source": "query User {\n  viewer {\n    __typename\n    id\n    login\n    email\n    avatarUrl(size: 120)\n  }\n}"
+  },
+  "746e39ffdea3617f152c8a0801ecc3e518d749e71edf773211f53c6e1ff3df4b": {
+    "name": "State",
+    "source": "query State {\n  viewer {\n    __typename\n    id\n    login\n    email\n    avatarUrl(size: 120)\n    pullRequests(first: 100, states: OPEN) {\n      __typename\n      totalCount\n      nodes {\n        __typename\n        id\n        url\n        title\n        baseRepository {\n          __typename\n          name\n        }\n        author {\n          __typename\n          login\n          avatarUrl(size: 120)\n        }\n        createdAt\n        number\n        state\n        comments {\n          __typename\n          totalCount\n        }\n        mergeable\n        reviewDecision\n        reviewRequests(first: 10) {\n          __typename\n          totalCount\n          nodes {\n            __typename\n            requestedReviewer {\n              __typename\n              ... on User {\n                __typename\n                id\n                login\n                email\n                avatarUrl\n              }\n            }\n          }\n        }\n        reviews(first: 10) {\n          __typename\n          totalCount\n          nodes {\n            __typename\n            state\n            author {\n              __typename\n              login\n              avatarUrl\n            }\n            comments(first: 10) {\n              __typename\n              nodes {\n                __typename\n                author {\n                  __typename\n                  login\n                  avatarUrl\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+  }
+}

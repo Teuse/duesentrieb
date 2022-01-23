@@ -14,16 +14,6 @@ struct SettingsView: View {
                 ProfileSettingsView(user: user, disconnectAction: viewModel.clickDisconnect)
                     .padding([.leading, .trailing])
             }
-            
-            headline2
-                .padding()
-            
-            if let model = viewModel.gitViewModel {
-                ReposSettingsView(viewModel: model)
-                    .padding([.leading, .trailing])
-            } else {
-                Text("Can't connect to github")
-            }
         }
     }
     
@@ -37,20 +27,6 @@ struct SettingsView: View {
                 Button(action: closeAction) {
                     Text("Ⅹ").font(.system(size: 25))
                 }.buttonStyle(PlainButtonStyle())
-            }
-            .frame(height: 25)
-            
-            Rectangle().fill(Color.black)
-                .frame(height: 1)
-                .padding(.trailing, 50)
-        }
-    }
-    
-    var headline2: some View {
-        VStack(spacing: 5) {
-            HStack(spacing: 0) {
-                Text("Manage Repositories").font(.title)
-                Spacer()
             }
             .frame(height: 25)
             
