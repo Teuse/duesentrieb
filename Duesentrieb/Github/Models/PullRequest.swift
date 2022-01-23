@@ -1,39 +1,53 @@
 import Foundation
 
-enum MergeableState: String, Codable {
-    case behind = "behind"
-    case blocked = "blocked"
-    case clean = "clean"
-    case dirty = "dirty"
-    case draft = "draft"
-    case hasHooks = "has_hooks"
-    case unknown = "unknown"
-    case unstable = "unstable"
-}
-
-struct PullRequest: Codable {
-    let id: Int
+struct PullRequest {
+    let id: String
     let url: String
     let title: String
-    let user: User
+    let repositoryName: Repository
+    let author: Author
+    let createdAt: String
     let number: Int
-    let state: String
-    let head: Commit
+    let state: PullRequestState
+    let commentsCount: Int
+    let mergeable: MergeableState
+    let reviewDecision: PullRequestReviewDecision?
     
-    let mergeable: Bool?
-    let mergeableState: MergeableState
+    let requestedReviewer: [User]
+    let reviews: [Review]
     
-    let requestedReviewers: [User]
-    
-    func isReviewer(user: User) -> Bool {
-        return requestedReviewers.contains(where: { $0.id == user.id })
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id, title, user, number, state, head
-        case mergeable
-        case requestedReviewers = "requested_reviewers"
-        case url = "html_url"
-        case mergeableState = "mergeable_state"
+    init?(pullRequest: StateQuery.Data.Viewer.PullRequest.Node?) {
+        guard let pullRequest = pullRequest,
+              let baseRepo = pullRequest.baseRepository,
+              let author = pullRequest.author,
+              let reviewRequests = pullRequest.reviewRequests?.nodes,
+              let reviews = pullRequest.reviews?.nodes else {
+            print("ERROR: failed to create PullRequest object.")
+            return nil
+        }
+        self.repositoryName = Repository(repo: baseRepo)
+        self.author = Author(author: author)
+        
+        self.id = pullRequest.id
+        self.url = pullRequest.url
+        self.title = pullRequest.title
+        self.createdAt = pullRequest.createdAt
+        self.number = pullRequest.number
+        self.state = pullRequest.state
+        self.commentsCount = pullRequest.comments.totalCount
+        self.mergeable = pullRequest.mergeable
+        self.reviewDecision = pullRequest.reviewDecision
+        
+        self.requestedReviewer = reviewRequests.compactMap{ User(requestedReviewer: $0?.requestedReviewer) }
+        guard let rrCount = pullRequest.reviewRequests?.totalCount, rrCount == self.requestedReviewer.count else {
+            print("ERROR: failed to create requestedReviewer object")
+            return nil
+        }
+        
+        self.reviews = reviews.compactMap{ Review(review: $0) }
+        guard let reviewCount = pullRequest.reviews?.totalCount, reviewCount == self.reviews.count else {
+            print("ERROR: failed to create reviews object")
+            return nil
+        }
     }
 }

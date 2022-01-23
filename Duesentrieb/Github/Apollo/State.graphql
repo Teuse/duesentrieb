@@ -1,0 +1,58 @@
+query State {
+  viewer {
+    id
+    login
+    email
+    avatarUrl(size: 120)
+    
+    pullRequests(first: 100, states: OPEN) {
+      totalCount
+      nodes {
+        id
+        url
+        title
+        baseRepository { name }
+        author { login, avatarUrl(size: 120) }
+        createdAt
+        number
+        state
+        comments {
+          totalCount
+        }
+        mergeable
+        reviewDecision
+        reviewRequests(first: 10) {
+          totalCount
+          nodes {
+            requestedReviewer {
+              ... on User {
+                id
+                login
+                email
+                avatarUrl
+              }
+            }
+          }
+        }
+        reviews(first: 10) {
+          totalCount
+          nodes {
+            state
+            author {
+                login
+                avatarUrl
+            }
+            comments(first: 10) {
+              nodes {
+                author {
+                  login
+                  avatarUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

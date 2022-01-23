@@ -1,0 +1,8 @@
+query User {
+  viewer {
+    id
+    login
+    email
+    avatarUrl(size: 120)
+  }
+}
