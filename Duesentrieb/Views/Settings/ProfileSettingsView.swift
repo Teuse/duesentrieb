@@ -14,7 +14,7 @@ struct ProfileSettingsView: View {
             Spacer().frame(width: 20)
             VStack(alignment: .leading) {
                 Text(user.login).bold()
-                Text(user.name ?? "")
+                Text(user.email)
             }.padding()
             
             Spacer()

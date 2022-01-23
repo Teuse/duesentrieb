@@ -3,8 +3,8 @@ import SwiftUI
 struct ApprovedIndication: View {
     @State private var showPopover: Bool = false
     
-    let userName: String
-    let state: ReviewState
+    let author: String
+    let state: PullRequestReviewState
     
     var body: some View {
         approvedIcon
@@ -22,6 +22,8 @@ struct ApprovedIndication: View {
                 Text("✓").font(.system(size: 15)).foregroundColor(.green)
             } else if state == .changesRequested {
                 Text("±").font(.system(size: 17)).foregroundColor(.red).offset(y: -1)
+            } else if state == .dismissed {
+                Text("🔴").font(.system(size: 6))
             } else {
                 Text("🟡").font(.system(size: 6))
             }
@@ -30,7 +32,7 @@ struct ApprovedIndication: View {
     
     var popoverContent: some View {
         ZStack {
-            Text(userName)
+            Text(author)
         }
         .frame(width: 100, height: 20)
     }

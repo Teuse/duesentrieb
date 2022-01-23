@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
-                rootViewModel.gitViewModel?.triggerUpdate()
+                rootViewModel.gitViewModel?.updatePullRequests()
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 NSApplication.shared.activate(ignoringOtherApps: true)

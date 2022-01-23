@@ -26,10 +26,11 @@ class MenuBarIcon {
     }
     
     private func createButtonTitle() -> String {
-        guard let rvm = viewModel.gitViewModel else { return "" }
-        
-        let separator = rvm.hasError ? "⚠️" : " | "
-        return "\(viewModel.myReviewRequestsCount) \(separator) \(viewModel.myPullRequestsCount)"
+//        guard let rvm = viewModel.gitViewModel else { return "" }
+//
+//        let separator = rvm.hasError ? "⚠️" : " | "
+//        return "\(viewModel.myReviewRequestsCount) \(separator) \(viewModel.myPullRequestsCount)"
+        return "! | !"
     }
     
     private func nextAnimationSymbol() -> String {

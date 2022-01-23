@@ -1,17 +1,17 @@
 import SwiftUI
 
 struct ConnectView: View {
-    private let urlPreivew = "https://api.github.com/api/v3"
+    private let urlPreivew = "https://git.daimler.com/api/graphql"
     
     @ObservedObject var viewModel: RootViewModel
     
-    @State private var url = AppSettings.githubUrl
-    @State private var token = AppSettings.githubToken
+    @State private var url = AppSettings.githubUrl?.absoluteString ?? ""
+    @State private var token = AppSettings.githubToken ?? ""
     
     var canConnect: Bool { !url.isEmpty && !token.isEmpty }
     
     func connectAction() {
-        guard canConnect else { return }
+        guard canConnect, let url = URL(string: url) else { return }
         viewModel.clickConnect(gitUrl: url, token: token)
     }
     

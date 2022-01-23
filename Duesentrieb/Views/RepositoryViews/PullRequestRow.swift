@@ -16,7 +16,8 @@ struct PullRequestRow: View {
                 
                 VStack(spacing: 0) {
                     HStack {
-                        Image(viewModel.type == .mine ? "BranchIcon" : "PullRequestIcon")
+//                        Image(viewModel.type == .mine ? "BranchIcon" : "PullRequestIcon")
+                        Image("PullRequestIcon")
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
                             .frame(height: 20)
@@ -24,7 +25,7 @@ struct PullRequestRow: View {
                             Text(viewModel.pullRequest.title)
                             ZStack {
                                 HStack {
-                                    Text(viewModel.pullRequest.user.login)
+                                    Text(viewModel.pullRequest.author.login)
                                         .font(.system(size: 10))
                                         .foregroundColor(Color.gray)
                                     Spacer()
@@ -48,23 +49,23 @@ struct PullRequestRow: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(height: 45)
-        .opacity(viewModel.type == .didReview ? 0.3 : 1)
+//        .opacity(viewModel.type == .didReview ? 0.3 : 1)
     }
     
     var reviewsIndicators: some View {
         HStack {
-            ForEach(viewModel.approvedReviews, id: \.id) { review in
-                ApprovedIndication(userName: review.user.login, state: review.state)
+            ForEach(viewModel.pullRequest.reviews, id: \.uuid) { review in
+                ApprovedIndication(author: review.author.login, state: review.state)
             }
-            ForEach(viewModel.pullRequest.requestedReviewers, id: \.id) { reviewer in
-                ApprovedIndication(userName: reviewer.login, state: .unknown)
+            ForEach(viewModel.pullRequest.requestedReviewer, id: \.id) { reviewer in
+                ApprovedIndication(author: reviewer.login, state: .pending)
             }
         }
     }
     
     var commentsIndicator: some View {
         HStack(spacing: 2) {
-            Text("\(viewModel.comments.count)")
+            Text("\(viewModel.commentsCount)")
             Text("💬")
         }
     }
