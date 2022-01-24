@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SideBar: View {
-    
     @Binding var page: AppPage
     
     let quitAction: () -> Void

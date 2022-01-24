@@ -1,10 +1,9 @@
 import SwiftUI
 
-struct ApprovedIndication: View {
-    @State private var showPopover: Bool = false
+struct ReviewStateIndicator: View {
+    @ObservedObject var viewModel: ReviewViewModel
     
-    let author: String
-    let state: PullRequestReviewState
+    @State private var showPopover: Bool = false
     
     var body: some View {
         approvedIcon
@@ -18,12 +17,14 @@ struct ApprovedIndication: View {
     
     var approvedIcon: some View {
         ZStack {
-            if state == .approved {
+            if viewModel.state == .approved {
                 Text("✓").font(.system(size: 15)).foregroundColor(.green)
-            } else if state == .changesRequested {
+            } else if viewModel.state == .changesRequested {
                 Text("±").font(.system(size: 17)).foregroundColor(.red).offset(y: -1)
-            } else if state == .dismissed {
+            } else if viewModel.state == .dismissed {
                 Text("🔴").font(.system(size: 6))
+            } else if viewModel.state == .commented {
+                Text("💬").font(.system(size: 6))
             } else {
                 Text("🟡").font(.system(size: 6))
             }
@@ -32,7 +33,7 @@ struct ApprovedIndication: View {
     
     var popoverContent: some View {
         ZStack {
-            Text(author)
+            Text(viewModel.author.login)
         }
         .frame(width: 100, height: 20)
     }

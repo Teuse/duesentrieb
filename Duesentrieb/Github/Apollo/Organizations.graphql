@@ -1,0 +1,55 @@
+query Organizations($curser: String) {
+  viewer {
+    organizations(first: 40, after: $curser) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      totalCount
+      nodes {
+        repositories(first:40) {
+          totalCount
+          nodes {
+            name
+            nameWithOwner
+            pullRequests(first: 10, states: OPEN) {
+              totalCount
+              nodes {
+                id
+                url
+                title
+                author { login, avatarUrl(size: 120) }
+                comments { totalCount }
+                mergeable
+                reviewDecision
+                reviewRequests(first: 10) {
+                  totalCount
+                  nodes {
+                    requestedReviewer {
+                      ... on User {
+                        id
+                        login
+                        name
+                        email
+                        avatarUrl
+                      }
+                    }
+                  }
+                }
+                reviews(first: 20) {
+                  totalCount
+                  nodes {
+                    state
+                    createdAt
+                    author { login, avatarUrl }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+        

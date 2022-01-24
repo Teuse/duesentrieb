@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ConnectView: View {
-    private let urlPreivew = "https://git.daimler.com/api/graphql"
+    private let urlPreivew = "https://api.github.com/graphql"
     
     @ObservedObject var viewModel: RootViewModel
     
@@ -97,9 +97,3 @@ struct ConnectView: View {
         }
     }
 }
-
-//struct ConnectView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ConnectView()
-//    }
-//}

@@ -1,0 +1,52 @@
+name: Create Release
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build and analyse release build and create release
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Build Number
+        id: create_version
+        run: |
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" "./Duesentrieb/Resources/info.plist"
+          version_number=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "./Duesentrieb/Resources/info.plist")
+          echo "::set-output name=version::${version_number}.${{ github.run_number }}"
+          echo "** Using Version: ${version_number}.${{ github.run_number }}"
+
+      - name: Build Release
+        run: |
+          xcodebuild clean build analyze -scheme "Duesentrieb" -project "Duesentrieb.xcodeproj" -configuration "Release" -derivedDataPath ./build | xcpretty
+          echo "** Build successful"
+          zip -rv Duesentrieb.zip ./build/Build/Products/Release/Duesentrieb.app/
+          echo "** Zip created: Duesentrieb.zip"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.create_version.outputs.version }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Duesentrieb.zip
+          asset_name: Duesentrieb.zip
+          asset_content_type: application/zip
+

@@ -11,7 +11,7 @@ struct SettingsView: View {
                 .padding([.leading, .trailing, .top])
             
             if let user = viewModel.gitViewModel?.user {
-                ProfileSettingsView(user: user, disconnectAction: viewModel.clickDisconnect)
+                ProfileSettingsView(user: user, disconnectAction: viewModel.disconnect)
                     .padding([.leading, .trailing])
             }
         }

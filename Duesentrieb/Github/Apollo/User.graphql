@@ -2,6 +2,7 @@ query User {
   viewer {
     id
     login
+    name
     email
     avatarUrl(size: 120)
   }

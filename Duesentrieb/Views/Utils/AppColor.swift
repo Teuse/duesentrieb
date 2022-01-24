@@ -7,6 +7,7 @@ enum AppColor {
     
     static var blackTextColor: Color { return Color.black }
     static var whiteTextColor: Color { return Color.white }
+    static var grayTextColor: Color { return darkGray }
     
     static var darkBackground: Color { return darkGray }
     

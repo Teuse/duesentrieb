@@ -3,7 +3,6 @@ import SwiftUI
 struct ViewPicker: View {
     
     @Binding var selection: Int
-    var colors = ["Reviewing", "Mine"]
     
     var body: some View {
         

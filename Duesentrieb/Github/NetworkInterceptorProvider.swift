@@ -17,14 +17,14 @@ struct NetworkInterceptorProvider: InterceptorProvider {
     func interceptors<Operation: GraphQLOperation>(for operation: Operation) -> [ApolloInterceptor] {
         return [
             MaxRetryInterceptor(),
-            CacheReadInterceptor(store: self.store),
-            RequestLoggingInterceptor(),
+//            CacheReadInterceptor(store: self.store),
+//            RequestLoggingInterceptor(),
             NetworkFetchInterceptor(client: self.client),
-            ResponseLoggingInterceptor(),
+//            ResponseLoggingInterceptor(),
             ResponseCodeInterceptor(),
             JSONResponseParsingInterceptor(cacheKeyForObject: self.store.cacheKeyForObject),
             AutomaticPersistedQueryInterceptor(),
-            CacheWriteInterceptor(store: self.store)
+//            CacheWriteInterceptor(store: self.store)
         ]
     }
 }

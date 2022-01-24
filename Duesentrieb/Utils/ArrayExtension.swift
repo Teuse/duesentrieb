@@ -16,4 +16,19 @@ extension Array
         if abs(newIndex - oldIndex) == 1 { return self.swapAt(oldIndex, newIndex) }
         self.insert(self.remove(at: oldIndex), at: newIndex)
     }
+    
+}
+
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
 }

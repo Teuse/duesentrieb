@@ -1,36 +1,57 @@
-import Foundation
 import SwiftUI
+import Combine
 
 //https://git.daimler.com/api/graphql
 
 class RootViewModel: ObservableObject {
+    private var cancelBag = CancelBag()
+    
     @Published private(set) var connectionState = RequestState.unknown
     @Published private(set) var gitViewModel: GithubViewModel?
     
-    private(set) var myPullRequestsCount: Int = 0
-    private(set) var myReviewRequestsCount: Int = 0
+    //MARK:- Life Circle
     
     init() {
-        reconnect()
+        if let url = AppSettings.githubUrl, let token = AppSettings.githubToken {
+            clickConnect(gitUrl: url, token: token)
+        }
     }
+    
+    //MARK:- Public Functions
     
     func clickConnect(gitUrl: URL, token: String) {
         guard connectionState != .requesting else { return }
         connectionState = .requesting
-        
+     
         let client = GithubClient(url: gitUrl, token: token)
-        client.fetchState(completion: { user, pullRequests in
-            self.gitViewModel = GithubViewModel(client: client, user: user, pullRequests: pullRequests)
-            self.connectionState = .done
-            AppSettings.githubUrl = client.url
-            AppSettings.githubToken = client.token
-        }) { error in
-            print("ERROR: failed to get loginUser: \(error)")
-            self.connectionState = .error
-        }
+//        client.test()
+        var user: User? = nil
+        client.fetchUser()
+            .flatMap{ fetchedUser -> AnyPublisher<[Repository], GithubError> in
+                user = fetchedUser
+                return GithubViewModel.fetchRepositories(client: client, user: fetchedUser)
+            }
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Error: Failed to fetch User: \(error.localizedDescription)")
+                    self.connectionState = .error
+                }
+            }, receiveValue: { [weak self] repositories in
+                guard let user = user else  { return assertionFailure() }
+                self?.connect(user: user, repositories: repositories, client: client)
+            })
+            .store(in: cancelBag)
     }
     
-    func clickDisconnect() {
+    private func connect(user: User, repositories: [Repository], client: GithubClient) {
+        gitViewModel = GithubViewModel(user: user, repositories: repositories, client: client)
+        connectionState = .done
+        AppSettings.githubUrl = client.url
+        AppSettings.githubToken = client.token
+    }
+    
+    func disconnect() {
         AppSettings.githubUrl = nil
         AppSettings.githubToken = nil
         connectionState = .unknown
@@ -39,12 +60,5 @@ class RootViewModel: ObservableObject {
     
     func clickQuitApp() {
         NSApplication.shared.terminate(nil)
-    }
-    
-    private func reconnect() {
-        guard let url = AppSettings.githubUrl, let token = AppSettings.githubToken else {
-            return
-        }
-        clickConnect(gitUrl: url, token: token)
     }
 }

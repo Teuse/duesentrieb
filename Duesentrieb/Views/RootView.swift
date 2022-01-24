@@ -33,7 +33,7 @@ struct RootView: View {
                 }
             }
             else if let vm = viewModel.gitViewModel, currentPage == .main {
-                ReposView(viewModel: vm)
+                MainView(viewModel: vm)
             }
             else {
                 Text("What happend here?")

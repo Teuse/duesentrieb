@@ -16,7 +16,7 @@ struct PullRequestRow: View {
                 
                 VStack(spacing: 0) {
                     HStack {
-//                        Image(viewModel.type == .mine ? "BranchIcon" : "PullRequestIcon")
+//                        Image(viewModel.type == .pullRequest ? "BranchIcon" : "PullRequestIcon")
                         Image("PullRequestIcon")
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
@@ -27,7 +27,7 @@ struct PullRequestRow: View {
                                 HStack {
                                     Text(viewModel.pullRequest.author.login)
                                         .font(.system(size: 10))
-                                        .foregroundColor(Color.gray)
+                                        .foregroundColor(AppColor.grayTextColor)
                                     Spacer()
                                 }
                                 HStack {
@@ -49,16 +49,13 @@ struct PullRequestRow: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(height: 45)
-//        .opacity(viewModel.type == .didReview ? 0.3 : 1)
+        .opacity(viewModel.isApprovedOrDismissedByMe ? 0.5 : 1)
     }
     
     var reviewsIndicators: some View {
         HStack {
-            ForEach(viewModel.pullRequest.reviews, id: \.uuid) { review in
-                ApprovedIndication(author: review.author.login, state: review.state)
-            }
-            ForEach(viewModel.pullRequest.requestedReviewer, id: \.id) { reviewer in
-                ApprovedIndication(author: reviewer.login, state: .pending)
+            ForEach(viewModel.reviewViewModels, id: \.uuid) {
+                ReviewStateIndicator(viewModel: $0)
             }
         }
     }
