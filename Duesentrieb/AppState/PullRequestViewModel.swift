@@ -12,7 +12,19 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     var isMergeable: Bool? { pullRequest.mergeable == .mergeable }
     var mergeableDescription: String { pullRequest.mergeable.rawValue }
     var commentsCount: Int { pullRequest.commentsCount }
-    var isApprovedOrDismissedByMe: Bool { isApproved(by: user) || isDismissed(by: user) }
+    
+    var isApproved: Bool {
+        pullRequest.reviews.contains(where: {
+            user.isEqual(author: $0.author) && $0.state == .approved
+        })
+    }
+    
+    var isResolved: Bool {
+        pullRequest.reviews.contains(where: {
+            user.isEqual(author: $0.author) &&
+            ($0.state == .approved || $0.state == .dismissed || $0.state == .changesRequested)
+        })
+    }
     
     //MARK:- Life Circle
     
@@ -27,16 +39,6 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     func openInBrowser() {
         guard let url = URL(string: pullRequest.url) else { return }
         NSWorkspace.shared.open(url)
-    }
-    
-    func isApproved(by user: User) -> Bool {
-        return pullRequest.reviews
-            .contains(where: { user.isEqual(author: $0.author) && $0.state == .approved })
-    }
-    
-    func isDismissed(by user: User) -> Bool {
-        return pullRequest.reviews
-            .contains(where: { user.isEqual(author: $0.author) && $0.state == .dismissed })
     }
     
     //MARK:- Private Functions

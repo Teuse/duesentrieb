@@ -5,7 +5,7 @@ class RepositoryViewModel: ObservableObject, Identifiable {
     let user: User
     let repository: Repository
     
-    @Published private(set) var  pullRequestViewModels: [PullRequestViewModel]
+    @Published private(set) var pullRequestViewModels: [PullRequestViewModel]
     @Published private(set) var reviewRequestViewModels: [PullRequestViewModel]
     
     var name: String { repository.nameWithOwner }
@@ -15,7 +15,7 @@ class RepositoryViewModel: ObservableObject, Identifiable {
     }
 
     var numberOfOpenReviewRequests: Int {
-        return reviewRequestViewModels.filter{ !$0.isApproved(by: user) }.count
+        return reviewRequestViewModels.filter{ !$0.isApproved }.count
     }
     
     //MARK:- Life Circle

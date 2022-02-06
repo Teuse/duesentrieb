@@ -9,6 +9,9 @@ class RootViewModel: ObservableObject {
     @Published private(set) var connectionState = RequestState.unknown
     @Published private(set) var gitViewModel: GithubViewModel?
     
+    var versionNumber: String { (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "" }
+    var buildNumber: String { (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "" }
+    
     //MARK:- Life Circle
     
     init() {

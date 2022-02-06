@@ -28,9 +28,7 @@ struct RootView: View {
             }
             
             if currentPage == .settings {
-                SettingsView(viewModel: viewModel) {
-                    currentPage = .main
-                }
+                SettingsView(viewModel: viewModel)
             }
             else if let vm = viewModel.gitViewModel, currentPage == .main {
                 MainView(viewModel: vm)

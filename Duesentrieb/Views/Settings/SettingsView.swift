@@ -3,30 +3,27 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: RootViewModel
     
-    let closeAction: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
-            headline
-                .padding([.leading, .trailing, .top])
-            
+            headline("User Profile")
+                
             if let user = viewModel.gitViewModel?.user {
                 ProfileSettingsView(user: user, disconnectAction: viewModel.disconnect)
                     .padding([.leading, .trailing])
             }
+            headline("About")
+            Spacer().frame(height:5)
+            info()
+            Spacer()
         }
     }
     
-    var headline: some View {
+    func headline(_ title: String) -> some View {
         VStack(spacing: 5) {
             HStack(spacing: 0) {
-                Text("User Profile").font(.title)
-
+                Text(title).font(.title)
                 Spacer()
-                
-                Button(action: closeAction) {
-                    Text("Ⅹ").font(.system(size: 25))
-                }.buttonStyle(PlainButtonStyle())
             }
             .frame(height: 25)
             
@@ -34,5 +31,14 @@ struct SettingsView: View {
                 .frame(height: 1)
                 .padding(.trailing, 50)
         }
+        .padding([.leading, .trailing, .top])
+    }
+    
+    func info() -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text("Version: \(viewModel.versionNumber).\(viewModel.buildNumber)")
+            Text("© 2022 Mathi Radler, alle Rechte Vorbehalten.")
+        }
+        .padding([.leading, .trailing, .top])
     }
 }
