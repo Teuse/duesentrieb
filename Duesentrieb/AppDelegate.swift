@@ -10,7 +10,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {            
         rootViewModel = RootViewModel()
-        let rootView = RootView(viewModel: rootViewModel)
+        let rootView = RootView()
+            .environmentObject(rootViewModel)
         
         popover.contentViewController = NSHostingController(rootView: rootView)
         popover.behavior = .transient
@@ -20,6 +21,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(togglePopover(_:))
             menuBarIcon = MenuBarIcon(button: button, viewModel: rootViewModel)
         }
+        
+        // Run the 'reconnect' process after the initialization loop
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+            self.rootViewModel.reconnect()
+        }
     }
 
     @objc func togglePopover(_ sender: AnyObject?) {
@@ -27,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
-                rootViewModel.gitViewModel?.updateViewModel()
+                rootViewModel.triggerUpdate()
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 NSApplication.shared.activate(ignoringOtherApps: true)

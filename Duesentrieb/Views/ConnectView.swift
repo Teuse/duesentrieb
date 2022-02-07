@@ -3,22 +3,17 @@ import SwiftUI
 struct ConnectView: View {
     private let urlPreivew = "https://api.github.com/graphql"
     
-    @ObservedObject var viewModel: RootViewModel
-    
+    @EnvironmentObject private var rootViewModel: RootViewModel
+
     @State private var url = AppSettings.githubUrl?.absoluteString ?? ""
     @State private var token = AppSettings.githubToken ?? ""
     
     var canConnect: Bool { !url.isEmpty && !token.isEmpty }
     
     func connectAction() {
-        guard canConnect, let url = URL(string: url) else { return }
-        viewModel.clickConnect(gitUrl: url, token: token)
+        rootViewModel.connectToGithub(gitUrl: url, token: token)
     }
-    
-    func quitAppAction() {
-        viewModel.clickQuitApp()
-    }
-    
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -49,8 +44,8 @@ struct ConnectView: View {
                     .background(AppColor.whiteTextColor)
                     .cornerRadius(5.0)
                 
-                if viewModel.connectionState == .error {
-                    errorText
+                if case let .error(errorMsg) = rootViewModel.connectionState {
+                    errorText(text: errorMsg)
                 }
                 
                 Spacer().frame(height: 5)
@@ -63,14 +58,14 @@ struct ConnectView: View {
             .padding()
             .frame(maxWidth: 400)
             
-            if viewModel.connectionState == .requesting {
+            if case .connecting = rootViewModel.connectionState {
                 loadingOverlay
             }
         }
     }
     
     var quitAppButton: some View {
-        Button(action: quitAppAction) {
+        Button(action: rootViewModel.clickQuitApp) {
             Text("Quit App")
                 .foregroundColor(AppColor.whiteTextColor)
         }
@@ -89,9 +84,9 @@ struct ConnectView: View {
         }
     }
     
-    var errorText: some View {
+    func errorText(text: String) -> some View {
         HStack {
-            Text("Connection failed. Please check the url and token and try again...")
+            Text(text)
                 .foregroundColor(Color.red)
             Spacer()
         }

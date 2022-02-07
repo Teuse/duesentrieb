@@ -17,21 +17,19 @@ class MenuBarIcon {
     }
     
     private func updateButton() {
+        let isCon = !viewModel.gitViewModels.isEmpty
         switch viewModel.connectionState {
-        case .unknown:      button.title = "Connect"
-        case .requesting:   button.title = nextAnimationSymbol()
+        case .idle:         button.title = isCon ? createButtonTitle() : "Not Connected"
+        case .connecting:   button.title = nextAnimationSymbol()
         case .error:        button.title = "⚠️"
-        case .done:         button.title = createButtonTitle()
         }
     }
     
     private func createButtonTitle() -> String {
-        guard let githubViewModel = viewModel.gitViewModel else { return "" }
+        let numReviews = viewModel.numberOfOpenReviewRequests
+        let numPullRequests = viewModel.numberOfOpenPullRequests
+        let separator = viewModel.hasConnectionIssue ? "⚠️" : " | "
         
-        let numReviews = githubViewModel.numberOfOpenReviewRequests
-        let numPullRequests = githubViewModel.numberOfOpenPullRequests
-
-        let separator = githubViewModel.requestState == .error ? "⚠️" : " | "
         return "\(numReviews) \(separator) \(numPullRequests)"
     }
     

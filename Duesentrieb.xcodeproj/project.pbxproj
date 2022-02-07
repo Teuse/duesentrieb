@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		330BA136279ACEA200AF5411 /* GithubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330BA135279ACEA200AF5411 /* GithubClient.swift */; };
 		33177691279EB33700F755DA /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33177690279EB33700F755DA /* RepositoryViewModel.swift */; };
+		332B364B27B026990032FBF9 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B364A27B026990032FBF9 /* ServiceType.swift */; };
+		332B364D27B027B90032FBF9 /* ServiceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B364C27B027B90032FBF9 /* ServiceConnection.swift */; };
 		333058A927A56B1F0000E3D8 /* PullRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333058A827A56B1F0000E3D8 /* PullRequestType.swift */; };
 		33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFB25D6CAD50015BB00 /* LargeButton.swift */; };
 		33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFE25D6CB320015BB00 /* AppColor.swift */; };
@@ -55,6 +57,8 @@
 /* Begin PBXFileReference section */
 		330BA135279ACEA200AF5411 /* GithubClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubClient.swift; sourceTree = "<group>"; };
 		33177690279EB33700F755DA /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
+		332B364A27B026990032FBF9 /* ServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
+		332B364C27B027B90032FBF9 /* ServiceConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConnection.swift; sourceTree = "<group>"; };
 		333058A827A56B1F0000E3D8 /* PullRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestType.swift; sourceTree = "<group>"; };
 		33322AFB25D6CAD50015BB00 /* LargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButton.swift; sourceTree = "<group>"; };
 		33322AFE25D6CB320015BB00 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
@@ -117,18 +121,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		337AEF1E279AFAF5005C0133 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				337AEF24279AFC64005C0133 /* User.swift */,
-				337AEF26279AFCD8005C0133 /* Repository.swift */,
-				337AEF22279AFC5B005C0133 /* PullRequest.swift */,
-				337AEF2A279C1018005C0133 /* Author.swift */,
-				337AEF28279AFE02005C0133 /* Review.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		339E60CF25D25F400052B238 /* GenericViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,8 +165,15 @@
 		33A0D56325D9A0780067D904 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				332B364A27B026990032FBF9 /* ServiceType.swift */,
+				337AEF24279AFC64005C0133 /* User.swift */,
+				337AEF26279AFCD8005C0133 /* Repository.swift */,
+				337AEF22279AFC5B005C0133 /* PullRequest.swift */,
+				337AEF2A279C1018005C0133 /* Author.swift */,
+				337AEF28279AFE02005C0133 /* Review.swift */,
 				33A0D56425D9A0900067D904 /* RequestState.swift */,
 				333058A827A56B1F0000E3D8 /* PullRequestType.swift */,
+				332B364C27B027B90032FBF9 /* ServiceConnection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -237,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				33F9E3D827969FC80098124E /* Apollo */,
-				337AEF1E279AFAF5005C0133 /* Models */,
 				330BA135279ACEA200AF5411 /* GithubClient.swift */,
 				33A825FA27954B6A0054C802 /* NetworkInterceptorProvider.swift */,
 				33A825FC27954B940054C802 /* RequestLoggingInterceptor.swift */,
@@ -403,8 +401,10 @@
 				334D7C0425D3B60C002B547C /* SettingsView.swift in Sources */,
 				333058A927A56B1F0000E3D8 /* PullRequestType.swift in Sources */,
 				33177691279EB33700F755DA /* RepositoryViewModel.swift in Sources */,
+				332B364D27B027B90032FBF9 /* ServiceConnection.swift in Sources */,
 				33C3792D25D28F9700DABBCA /* PullRequestViewModel.swift in Sources */,
 				337AEF2B279C1018005C0133 /* Author.swift in Sources */,
+				332B364B27B026990032FBF9 /* ServiceType.swift in Sources */,
 				334D7BFF25D30C3F002B547C /* ReviewStateIndicator.swift in Sources */,
 				33A825FF27954BAA0054C802 /* ResponseLoggingInterceptor.swift in Sources */,
 				337AEF25279AFC64005C0133 /* User.swift in Sources */,
@@ -568,7 +568,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.radler.Duesentrieb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -593,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.radler.Duesentrieb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

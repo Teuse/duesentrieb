@@ -5,10 +5,14 @@ class GithubViewModel: ObservableObject {
     private let client: GithubClient
     private var cancelBag = CancelBag()
     
+    let uuid = UUID()
     let user: User
     
     @Published private(set) var requestState = RequestState.unknown
     @Published private(set) var repoViewModels: [RepositoryViewModel]
+    
+    var url: URL { client.url }
+    var token: String { client.token }
     
     var numberOfOpenPullRequests: Int {
         return repoViewModels.map{ $0.numberOfOpenPullRequests }.reduce(0, +)

@@ -1,22 +1,34 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var viewModel: RootViewModel
+    @EnvironmentObject private var rootViewModel: RootViewModel
     
+    @Binding var page: AppPage
     
     var body: some View {
-        VStack(spacing: 0) {
-            headline("User Profile")
-                
-            if let user = viewModel.gitViewModel?.user {
-                ProfileSettingsView(user: user, disconnectAction: viewModel.disconnect)
-                    .padding([.leading, .trailing])
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                headline("User Profile")
+                addButton()
             }
+            profileList()
             headline("About")
             Spacer().frame(height:5)
             info()
             Spacer()
         }
+    }
+    
+    func addButton() -> some View {
+        Button {
+            page = .connect
+        } label: {
+            Image(systemName: "plus.circle")
+                .resizable()
+                .frame(width: 35, height: 35)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding([.trailing, .top])
     }
     
     func headline(_ title: String) -> some View {
@@ -29,16 +41,27 @@ struct SettingsView: View {
             
             Rectangle().fill(Color.black)
                 .frame(height: 1)
-                .padding(.trailing, 50)
+                .padding(.trailing)
         }
         .padding([.leading, .trailing, .top])
     }
     
     func info() -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("Version: \(viewModel.versionNumber).\(viewModel.buildNumber)")
+            Text("Version: \(AppSettings.versionNumber).\(AppSettings.buildNumber)")
             Text("© 2022 Mathi Radler, alle Rechte Vorbehalten.")
         }
         .padding([.leading, .trailing, .top])
+    }
+    
+    func profileList() -> some View {
+        ScrollView {
+            ForEach(rootViewModel.gitViewModels, id: \.uuid) { gitVM in
+                ProfileSettingsView(user: gitVM.user, disconnectAction: {
+                    rootViewModel.disconnect(uuid: gitVM.uuid)
+                })
+                    .padding([.leading, .trailing])
+            }
+        }
     }
 }

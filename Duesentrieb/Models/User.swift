@@ -15,6 +15,14 @@ struct User {
         return self.login.caseInsensitiveCompare(author.login) == .orderedSame
     }
     
+    init(login: String, email: String) {
+        self.id = "abcde"
+        self.login = login
+        self.email = email
+        self.avatarUrl = ""
+        self.name = nil
+    }
+    
     //MARK:- GraphQL Types Initializer
     
     init(qlViewer: UserQuery.Data.Viewer) {
