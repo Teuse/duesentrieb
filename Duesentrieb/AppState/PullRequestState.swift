@@ -2,12 +2,12 @@ import Foundation
 import Cocoa
 import SwiftUI
 
-class PullRequestViewModel: ObservableObject, Identifiable {
+class PullRequestState: ObservableObject, Identifiable {
     let uuid = UUID()
     let user: User
     let pullRequest: PullRequest
     
-    @Published private(set) var  reviewViewModels: [ReviewViewModel]
+    @Published private(set) var  reviewStates: [ReviewState]
     
     var isMergeable: Bool? { pullRequest.mergeable == .mergeable }
     var mergeableDescription: String { pullRequest.mergeable.rawValue }
@@ -31,7 +31,7 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     init(pullRequest: PullRequest, user: User) {
         self.pullRequest = pullRequest
         self.user = user
-        self.reviewViewModels = PullRequestViewModel.reviewStates(pullRequest: pullRequest)
+        self.reviewStates = PullRequestState.reviewStates(pullRequest: pullRequest)
     }
 
     //MARK:- Public Functions
@@ -43,15 +43,15 @@ class PullRequestViewModel: ObservableObject, Identifiable {
     
     //MARK:- Private Functions
     
-    static private func reviewStates(pullRequest: PullRequest) -> [ReviewViewModel] {
+    static private func reviewStates(pullRequest: PullRequest) -> [ReviewState] {
         let authors = uniqueReviewerAuthors(pullRequest: pullRequest)
-        var states = [ReviewViewModel]()
+        var states = [ReviewState]()
         
         for author in authors {
             if pullRequest.requestedReviewer.contains(where: { $0.isEqual(author: author) }) {
-                states.append(ReviewViewModel(state: .pending, author: author))
+                states.append(ReviewState(state: .pending, author: author))
             } else if let review = pullRequest.reviews.filter({ $0.author.isEqual(author: author) }).sorted(by: { $0.createdAt < $1.createdAt }).last {
-                states.append(ReviewViewModel(state: review.state, author: author))
+                states.append(ReviewState(state: review.state, author: author))
             } else {
                 assertionFailure()
 //                states.append(ReviewViewModel(state: .pending, author: author))

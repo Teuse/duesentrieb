@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var viewModel: GithubViewModel
+    @EnvironmentObject private var rootState: RootState
     
     @State var page: Int = 0
     
@@ -24,8 +24,10 @@ struct MainView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     
-                    ForEach(viewModel.repoViewModels, id: \.uuid) {
-                        RepositoryView(viewModel: $0, page: self.page)
+                    ForEach(rootState.gitStates, id: \.uuid) { gitState in
+                        ForEach(gitState.repoStates, id: \.uuid) { repoState in
+                            RepositoryView(repoState: repoState, page: self.page)
+                        }
                     }
                     
                     Spacer()

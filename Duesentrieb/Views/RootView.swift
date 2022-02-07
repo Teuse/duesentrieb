@@ -5,33 +5,35 @@ enum AppPage: Int {
 }
 
 struct RootView: View {
-    @EnvironmentObject private var rootViewModel: RootViewModel
+    @EnvironmentObject private var rootState: RootState
     
     @State var currentPage = AppPage.main
     
     var body: some View {
         ZStack {
-            if rootViewModel.gitViewModels.isEmpty || currentPage == .connect {
-                ConnectView()
+            if rootState.gitStates.isEmpty || currentPage == .connect {
+                ConnectView() {
+                    currentPage = .settings
+                }
             }
             else {
                 mainViews
             }
         }
-        .frame(width: 500, height: 400)
+        .frame(width: 600, height: 400)
     }
     
     var mainViews: some View {
         HStack(spacing: 0) {
             SideBar(page: $currentPage) {
-                rootViewModel.clickQuitApp()
+                rootState.clickQuitApp()
             }
             
             if currentPage == .settings {
                 SettingsView(page: $currentPage)
             }
-            else if let vm = rootViewModel.gitViewModels.first, currentPage == .main {
-                MainView(viewModel: vm)
+            else if !rootState.gitStates.isEmpty, currentPage == .main {
+                MainView()
             }
             else {
                 Text("What happend here?")

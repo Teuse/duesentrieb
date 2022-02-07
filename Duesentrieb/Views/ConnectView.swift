@@ -3,17 +3,23 @@ import SwiftUI
 struct ConnectView: View {
     private let urlPreivew = "https://api.github.com/graphql"
     
-    @EnvironmentObject private var rootViewModel: RootViewModel
-
-    @State private var url = AppSettings.githubUrl?.absoluteString ?? ""
-    @State private var token = AppSettings.githubToken ?? ""
+    @EnvironmentObject private var rootState: RootState
+    
+    @State private var url = ""
+    @State private var token = ""
+    
+    let backAction: () -> Void
     
     var canConnect: Bool { !url.isEmpty && !token.isEmpty }
     
     func connectAction() {
-        rootViewModel.connectToGithub(gitUrl: url, token: token)
+        rootState.connectToGithub(gitUrl: url, token: token) {
+            if !rootState.gitStates.isEmpty, case .idle = rootState.connectionState {
+                backAction()
+            }
+        }
     }
-
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -21,10 +27,17 @@ struct ConnectView: View {
             
             VStack(spacing: 10) {
                 
-                Text("Wellcome to Düsentrieb")
-                    .font(.largeTitle)
-                    .foregroundColor(AppColor.primary)
-                
+                ZStack {
+                    Text("Wellcome to Düsentrieb")
+                        .font(.largeTitle)
+                        .foregroundColor(AppColor.primary)
+                    if !rootState.gitStates.isEmpty {
+                        HStack(spacing: 0) {
+                            backArrow
+                            Spacer()
+                        }
+                    }
+                }
                 Spacer()
                 
                 HStack {
@@ -44,7 +57,7 @@ struct ConnectView: View {
                     .background(AppColor.whiteTextColor)
                     .cornerRadius(5.0)
                 
-                if case let .error(errorMsg) = rootViewModel.connectionState {
+                if case let .error(errorMsg) = rootState.connectionState {
                     errorText(text: errorMsg)
                 }
                 
@@ -56,21 +69,33 @@ struct ConnectView: View {
                 quitAppButton
             }
             .padding()
-            .frame(maxWidth: 400)
+            .frame(maxWidth: 500)
             
-            if case .connecting = rootViewModel.connectionState {
+            if case .connecting = rootState.connectionState {
                 loadingOverlay
             }
         }
     }
     
     var quitAppButton: some View {
-        Button(action: rootViewModel.clickQuitApp) {
+        Button(action: rootState.clickQuitApp) {
             Text("Quit App")
                 .foregroundColor(AppColor.whiteTextColor)
         }
         .buttonStyle(PlainButtonStyle())
         .padding()
+    }
+    
+    var backArrow: some View {
+        Button(action: backAction) {
+            Image(systemName: "arrow.left")
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .frame(height: 20)
+                .foregroundColor(AppColor.whiteTextColor)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding([.top], 5)
     }
     
     var loadingOverlay: some View {

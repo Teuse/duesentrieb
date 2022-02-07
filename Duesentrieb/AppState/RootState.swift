@@ -7,20 +7,20 @@ enum ConnectionState {
     case error(String)
 }
 
-class RootViewModel: ObservableObject {
+class RootState: ObservableObject {
     private var cancelBag = CancelBag()
     
     @Published private(set) var connectionState = ConnectionState.idle
-    @Published private(set) var gitViewModels: [GithubViewModel] = []
+    @Published private(set) var gitStates: [GithubState] = []
     
     var numberOfOpenPullRequests: Int {
-        return gitViewModels.map{ $0.numberOfOpenPullRequests }.reduce(0, +)
+        return gitStates.map{ $0.numberOfOpenPullRequests }.reduce(0, +)
     }
     var numberOfOpenReviewRequests: Int {
-        return gitViewModels.map{ $0.numberOfOpenReviewRequests }.reduce(0, +)
+        return gitStates.map{ $0.numberOfOpenReviewRequests }.reduce(0, +)
     }
     var hasConnectionIssue: Bool {
-        return gitViewModels.contains(where: { $0.requestState == .error })
+        return gitStates.contains(where: { $0.requestState == .error })
     }
     
     //MARK:- Life Circle
@@ -30,34 +30,31 @@ class RootViewModel: ObservableObject {
     //MARK:- Public Functions
     
     func reconnect() {
-        guard gitViewModels.isEmpty else { return assertionFailure("Only reconnect, if not connected to a service already!") }
+        guard gitStates.isEmpty else { return assertionFailure("Only reconnect, if not connected to a service already!") }
         
-//        if let url = AppSettings.githubUrl, let token = AppSettings.githubToken {
-//            connectViewModel = ConnectViewModel() { serviceConnection in
-//            self.connect(ServiceConnection)
-//        }
-//        connectViewModel.connectToGithub()
+        for service in AppSettings.services {
+            connectToGithub(gitUrl: service.url, token: service.token) {}
+        }
 
 //        let user = User(login: "testuser", email: "testuser@blub.de")
-//        let client = GithubClient(url: URL(string: "https://bla.de")!, token: "blub")
+//        let client = GithubClient(url: "https://bla.de", token: "blub")
 //        connected(service: ServiceConnection(type: .github, user: user, repositories: [Repository](), client: client))
     }
     
-    func connected(service: ServiceConnection) {
-        let viewModel = GithubViewModel(user: service.user, repositories: service.repositories, client: service.client)
-        gitViewModels.append(viewModel)
-        AppSettings.githubUrl = service.client.url
-        AppSettings.githubToken = service.client.token
+    func connected(connection: ServiceConnection) {
+        let service = Service(type: .github, url: connection.client.url.absoluteString, token: connection.client.token)
+        let githubState = GithubState(service: service, connection: connection)
+        gitStates.append(githubState)
+        AppSettings.add(service: service)
     }
     
-    func disconnect(uuid: UUID) {
-        gitViewModels.removeAll(where: { $0.uuid == uuid })
-        AppSettings.githubUrl = nil
-        AppSettings.githubToken = nil
+    func disconnect(service: Service) {
+        gitStates.removeAll(where: { $0.service == service })
+        AppSettings.remove(service: service)
     }
     
     func triggerUpdate() {
-        gitViewModels.forEach{ $0.updateViewModel() }
+        gitStates.forEach{ $0.updateViewModel() }
     }
     
     func clickQuitApp() {
@@ -65,13 +62,13 @@ class RootViewModel: ObservableObject {
     }
 }
 
-extension RootViewModel {
+extension RootState {
     
     func doesConnectionExists(to url: URL, token: String) -> Bool {
-        return gitViewModels.contains(where: { $0.url == url && $0.token == token })
+        return gitStates.contains(where: { $0.url == url && $0.token == token })
     }
     
-    func connectToGithub(gitUrl: String, token: String) {
+    func connectToGithub(gitUrl: String, token: String, callback: @escaping () -> Void) {
         if case .connecting = connectionState { return assertionFailure("Can't connect to multiple services simulateous!") }
         connectionState = .connecting
         
@@ -90,19 +87,20 @@ extension RootViewModel {
         client.fetchUser()
             .flatMap{ fetchedUser -> AnyPublisher<[Repository], GithubError> in
                 user = fetchedUser
-                return GithubViewModel.fetchRepositories(client: client, user: fetchedUser)
+                return GithubState.fetchRepositories(client: client, user: fetchedUser)
             }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     self.connectionState = .error("Couldn't connect to service: \(error.localizedDescription)")
-                } else {
-                    self.connectionState = .idle
+                    callback()
                 }
             }, receiveValue: { repositories in
                 guard let user = user else  { return assertionFailure() }
                 let serviceConnection = ServiceConnection(type: .github, user: user, repositories: repositories, client: client)
-                self.connected(service: serviceConnection)
+                self.connected(connection: serviceConnection)
+                self.connectionState = .idle
+                callback()
             })
             .store(in: cancelBag)
     }

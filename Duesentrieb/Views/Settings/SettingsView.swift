@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject private var rootViewModel: RootViewModel
+    @EnvironmentObject private var rootViewModel: RootState
     
     @Binding var page: AppPage
     
@@ -20,9 +20,7 @@ struct SettingsView: View {
     }
     
     func addButton() -> some View {
-        Button {
-            page = .connect
-        } label: {
+        Button(action: { page = .connect }) {
             Image(systemName: "plus.circle")
                 .resizable()
                 .frame(width: 35, height: 35)
@@ -56,11 +54,11 @@ struct SettingsView: View {
     
     func profileList() -> some View {
         ScrollView {
-            ForEach(rootViewModel.gitViewModels, id: \.uuid) { gitVM in
-                ProfileSettingsView(user: gitVM.user, disconnectAction: {
-                    rootViewModel.disconnect(uuid: gitVM.uuid)
-                })
-                    .padding([.leading, .trailing])
+            ForEach(rootViewModel.gitStates, id: \.uuid) { gitState in
+                ProfileSettingsView(user: gitState.user) {
+                    rootViewModel.disconnect(service: gitState.service)
+                }
+                .padding([.leading, .trailing])
             }
         }
     }

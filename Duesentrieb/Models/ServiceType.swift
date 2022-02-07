@@ -1,6 +1,6 @@
 import Foundation
 
-enum ServiceType {
+enum ServiceType: Codable {
     case github
     case azure
 }

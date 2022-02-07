@@ -3,13 +3,13 @@ import SwiftUI
 
 class MenuBarIcon {
     let button: NSStatusBarButton
-    let viewModel: RootViewModel
+    let state: RootState
     
     private var animationCount = 0
     
-    init(button: NSStatusBarButton, viewModel: RootViewModel) {
+    init(button: NSStatusBarButton, state: RootState) {
         self.button = button
-        self.viewModel = viewModel
+        self.state = state
         
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             self.updateButton()
@@ -17,8 +17,8 @@ class MenuBarIcon {
     }
     
     private func updateButton() {
-        let isCon = !viewModel.gitViewModels.isEmpty
-        switch viewModel.connectionState {
+        let isCon = !state.gitStates.isEmpty
+        switch state.connectionState {
         case .idle:         button.title = isCon ? createButtonTitle() : "Not Connected"
         case .connecting:   button.title = nextAnimationSymbol()
         case .error:        button.title = "⚠️"
@@ -26,9 +26,9 @@ class MenuBarIcon {
     }
     
     private func createButtonTitle() -> String {
-        let numReviews = viewModel.numberOfOpenReviewRequests
-        let numPullRequests = viewModel.numberOfOpenPullRequests
-        let separator = viewModel.hasConnectionIssue ? "⚠️" : " | "
+        let numReviews = state.numberOfOpenReviewRequests
+        let numPullRequests = state.numberOfOpenPullRequests
+        let separator = state.hasConnectionIssue ? "⚠️" : " | "
         
         return "\(numReviews) \(separator) \(numPullRequests)"
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-class ReviewViewModel: ObservableObject, Identifiable {
+class ReviewState: ObservableObject, Identifiable {
     let uuid = UUID()
     let state: PullRequestReviewState
     let author: Author
@@ -11,13 +11,13 @@ class ReviewViewModel: ObservableObject, Identifiable {
     }
 }
 
-extension ReviewViewModel {
-    static func < (lhs: ReviewViewModel, rhs: ReviewViewModel) -> Bool {
-        return ReviewViewModel.asNumber(state: lhs.state) < ReviewViewModel.asNumber(state: rhs.state)
+extension ReviewState {
+    static func < (lhs: ReviewState, rhs: ReviewState) -> Bool {
+        return ReviewState.asNumber(state: lhs.state) < ReviewState.asNumber(state: rhs.state)
     }
     
-    static func > (lhs: ReviewViewModel, rhs: ReviewViewModel) -> Bool {
-        return ReviewViewModel.asNumber(state: lhs.state) > ReviewViewModel.asNumber(state: rhs.state)
+    static func > (lhs: ReviewState, rhs: ReviewState) -> Bool {
+        return ReviewState.asNumber(state: lhs.state) > ReviewState.asNumber(state: rhs.state)
     }
         
     private static func asNumber(state: PullRequestReviewState) -> Int {
