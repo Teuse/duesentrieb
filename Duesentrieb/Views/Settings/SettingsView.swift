@@ -46,7 +46,7 @@ struct SettingsView: View {
     
     func info() -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("Version: \(AppSettings.versionNumber).\(AppSettings.buildNumber)")
+            Text("Version: \(rootViewModel.appVersion)")
             Text("© 2022 Mathi Radler, alle Rechte Vorbehalten.")
         }
         .padding([.leading, .trailing, .top])

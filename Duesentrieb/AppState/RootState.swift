@@ -9,9 +9,12 @@ enum ConnectionState {
 
 class RootState: ObservableObject {
     private var cancelBag = CancelBag()
+    private var settings = AppSettings()
     
     @Published private(set) var connectionState = ConnectionState.idle
     @Published private(set) var gitStates: [GithubState] = []
+    
+    var appVersion: String { "\(settings.versionNumber).\(settings.buildNumber)" }
     
     var numberOfOpenPullRequests: Int {
         return gitStates.map{ $0.numberOfOpenPullRequests }.reduce(0, +)
@@ -25,14 +28,19 @@ class RootState: ObservableObject {
     
     //MARK:- Life Circle
     
-    init() {}
+    init() {
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            print("Trigger Update")
+            self.triggerUpdate()
+        }
+    }
     
     //MARK:- Public Functions
     
     func reconnect() {
         guard gitStates.isEmpty else { return assertionFailure("Only reconnect, if not connected to a service already!") }
         
-        for service in AppSettings.services {
+        for service in settings.services {
             connectToGithub(gitUrl: service.url, token: service.token) {}
         }
 
@@ -45,12 +53,12 @@ class RootState: ObservableObject {
         let service = Service(type: .github, url: connection.client.url.absoluteString, token: connection.client.token)
         let githubState = GithubState(service: service, connection: connection)
         gitStates.append(githubState)
-        AppSettings.add(service: service)
+        settings.add(service: service)
     }
     
     func disconnect(service: Service) {
         gitStates.removeAll(where: { $0.service == service })
-        AppSettings.remove(service: service)
+        settings.remove(service: service)
     }
     
     func triggerUpdate() {
@@ -93,6 +101,8 @@ extension RootState {
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     self.connectionState = .error("Couldn't connect to service: \(error.localizedDescription)")
+                    // reset the error state after 20 seconds
+                    self.delayedErrorStateReset()
                     callback()
                 }
             }, receiveValue: { repositories in
@@ -103,5 +113,13 @@ extension RootState {
                 callback()
             })
             .store(in: cancelBag)
+    }
+    
+    private func delayedErrorStateReset() {
+        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { _ in
+            if case .error(_) = self.connectionState {
+                self.connectionState = .idle
+            }
+        }
     }
 }

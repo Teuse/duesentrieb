@@ -11,6 +11,10 @@
 		33177691279EB33700F755DA /* RepositoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33177690279EB33700F755DA /* RepositoryState.swift */; };
 		332B364B27B026990032FBF9 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B364A27B026990032FBF9 /* ServiceType.swift */; };
 		332B364D27B027B90032FBF9 /* ServiceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B364C27B027B90032FBF9 /* ServiceConnection.swift */; };
+		332B364F27B159340032FBF9 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B364E27B159340032FBF9 /* RestClient.swift */; };
+		332B365B27B15B150032FBF9 /* AzureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B365327B15B150032FBF9 /* AzureClient.swift */; };
+		332B366127B15B150032FBF9 /* AzOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B365A27B15B150032FBF9 /* AzOrganization.swift */; };
+		332B366327B1952C0032FBF9 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332B366227B1952C0032FBF9 /* StringExtensions.swift */; };
 		333058A927A56B1F0000E3D8 /* PullRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333058A827A56B1F0000E3D8 /* PullRequestType.swift */; };
 		33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFB25D6CAD50015BB00 /* LargeButton.swift */; };
 		33322AFF25D6CB320015BB00 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33322AFE25D6CB320015BB00 /* AppColor.swift */; };
@@ -25,6 +29,11 @@
 		337AEF29279AFE02005C0133 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337AEF28279AFE02005C0133 /* Review.swift */; };
 		337AEF2B279C1018005C0133 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337AEF2A279C1018005C0133 /* Author.swift */; };
 		339208E925DA79DF009B5F6C /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339208E825DA79DF009B5F6C /* MenuBarIcon.swift */; };
+		33930FB427B2743900A55DC6 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33930FB327B2743900A55DC6 /* DateFormatterExtension.swift */; };
+		33930FB627B298A500A55DC6 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33930FB527B298A500A55DC6 /* Keychain.swift */; };
+		33930FB827B2A54100A55DC6 /* BuildEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33930FB727B2A54100A55DC6 /* BuildEnv.swift */; };
+		33930FBA27B2B38100A55DC6 /* AzRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33930FB927B2B38100A55DC6 /* AzRepository.swift */; };
+		33930FBC27B2B3EB00A55DC6 /* AzProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33930FBB27B2B3EB00A55DC6 /* AzProfile.swift */; };
 		339E60D325D2625E0052B238 /* RepositoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339E60D225D2625E0052B238 /* RepositoryView.swift */; };
 		33A0D53625D6D67E0067D904 /* MergableIndication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D53525D6D67E0067D904 /* MergableIndication.swift */; };
 		33A0D53E25D714100067D904 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A0D53D25D714100067D904 /* AppSettings.swift */; };
@@ -59,6 +68,10 @@
 		33177690279EB33700F755DA /* RepositoryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryState.swift; sourceTree = "<group>"; };
 		332B364A27B026990032FBF9 /* ServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		332B364C27B027B90032FBF9 /* ServiceConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConnection.swift; sourceTree = "<group>"; };
+		332B364E27B159340032FBF9 /* RestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestClient.swift; path = Duesentrieb/Utils/RestClient.swift; sourceTree = SOURCE_ROOT; };
+		332B365327B15B150032FBF9 /* AzureClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureClient.swift; sourceTree = "<group>"; };
+		332B365A27B15B150032FBF9 /* AzOrganization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzOrganization.swift; sourceTree = "<group>"; };
+		332B366227B1952C0032FBF9 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		333058A827A56B1F0000E3D8 /* PullRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRequestType.swift; sourceTree = "<group>"; };
 		33322AFB25D6CAD50015BB00 /* LargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButton.swift; sourceTree = "<group>"; };
 		33322AFE25D6CB320015BB00 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
@@ -76,6 +89,11 @@
 		337AEF28279AFE02005C0133 /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		337AEF2A279C1018005C0133 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		339208E825DA79DF009B5F6C /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
+		33930FB327B2743900A55DC6 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
+		33930FB527B298A500A55DC6 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		33930FB727B2A54100A55DC6 /* BuildEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildEnv.swift; sourceTree = "<group>"; };
+		33930FB927B2B38100A55DC6 /* AzRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzRepository.swift; sourceTree = "<group>"; };
+		33930FBB27B2B3EB00A55DC6 /* AzProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzProfile.swift; sourceTree = "<group>"; };
 		339E60D225D2625E0052B238 /* RepositoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryView.swift; sourceTree = "<group>"; };
 		33A0D53525D6D67E0067D904 /* MergableIndication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergableIndication.swift; sourceTree = "<group>"; };
 		33A0D53D25D714100067D904 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -121,6 +139,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		332B365027B1593F0032FBF9 /* Azure */ = {
+			isa = PBXGroup;
+			children = (
+				332B365327B15B150032FBF9 /* AzureClient.swift */,
+				332B365427B15B150032FBF9 /* Models */,
+			);
+			path = Azure;
+			sourceTree = "<group>";
+		};
+		332B365427B15B150032FBF9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				332B365A27B15B150032FBF9 /* AzOrganization.swift */,
+				33930FB927B2B38100A55DC6 /* AzRepository.swift */,
+				33930FBB27B2B3EB00A55DC6 /* AzProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		339E60CF25D25F400052B238 /* GenericViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +173,7 @@
 		33A0D53B25D705F90067D904 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				332B364E27B159340032FBF9 /* RestClient.swift */,
 				33322AFE25D6CB320015BB00 /* AppColor.swift */,
 			);
 			path = Utils;
@@ -201,6 +239,7 @@
 				33A0D54525D7D64B0067D904 /* AppState */,
 				33B25CCD25D119BE008D6F29 /* Views */,
 				33B25CC125D119BE008D6F29 /* Github */,
+				332B365027B1593F0032FBF9 /* Azure */,
 				33B25CC925D119BE008D6F29 /* Utils */,
 				33B25CB525D11934008D6F29 /* Resources */,
 				33B25CA125D11926008D6F29 /* AppDelegate.swift */,
@@ -247,8 +286,12 @@
 		33B25CC925D119BE008D6F29 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				33930FB327B2743900A55DC6 /* DateFormatterExtension.swift */,
 				336D3BF627A027A8001BCABF /* CancelBag.swift */,
 				33E5DC7025DFA24500428669 /* ArrayExtension.swift */,
+				332B366227B1952C0032FBF9 /* StringExtensions.swift */,
+				33930FB527B298A500A55DC6 /* Keychain.swift */,
+				33930FB727B2A54100A55DC6 /* BuildEnv.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -391,25 +434,32 @@
 			files = (
 				339E60D325D2625E0052B238 /* RepositoryView.swift in Sources */,
 				336D3BFC27A09CE3001BCABF /* MainView.swift in Sources */,
+				33930FB427B2743900A55DC6 /* DateFormatterExtension.swift in Sources */,
 				339208E925DA79DF009B5F6C /* MenuBarIcon.swift in Sources */,
 				336FFE78279ED5D800E2B251 /* ReviewState.swift in Sources */,
 				33B25CDA25D119BE008D6F29 /* ViewPicker.swift in Sources */,
 				33B25CBF25D119B3008D6F29 /* GithubState.swift in Sources */,
 				33B25CBD25D119B3008D6F29 /* RootState.swift in Sources */,
+				33930FBA27B2B38100A55DC6 /* AzRepository.swift in Sources */,
 				33A0D56525D9A0900067D904 /* RequestState.swift in Sources */,
 				33A0D55225D8FEDE0067D904 /* AppNotifications.swift in Sources */,
+				33930FBC27B2B3EB00A55DC6 /* AzProfile.swift in Sources */,
 				334D7C0425D3B60C002B547C /* SettingsView.swift in Sources */,
+				33930FB627B298A500A55DC6 /* Keychain.swift in Sources */,
 				333058A927A56B1F0000E3D8 /* PullRequestType.swift in Sources */,
 				33177691279EB33700F755DA /* RepositoryState.swift in Sources */,
+				332B366127B15B150032FBF9 /* AzOrganization.swift in Sources */,
 				332B364D27B027B90032FBF9 /* ServiceConnection.swift in Sources */,
 				33C3792D25D28F9700DABBCA /* PullRequestState.swift in Sources */,
 				337AEF2B279C1018005C0133 /* Author.swift in Sources */,
 				332B364B27B026990032FBF9 /* ServiceType.swift in Sources */,
+				332B365B27B15B150032FBF9 /* AzureClient.swift in Sources */,
 				334D7BFF25D30C3F002B547C /* ReviewStateIndicator.swift in Sources */,
 				33A825FF27954BAA0054C802 /* ResponseLoggingInterceptor.swift in Sources */,
 				337AEF25279AFC64005C0133 /* User.swift in Sources */,
 				33A0D53625D6D67E0067D904 /* MergableIndication.swift in Sources */,
 				33322AFC25D6CAD50015BB00 /* LargeButton.swift in Sources */,
+				332B364F27B159340032FBF9 /* RestClient.swift in Sources */,
 				337AEF23279AFC5B005C0133 /* PullRequest.swift in Sources */,
 				336D3BF727A027A8001BCABF /* CancelBag.swift in Sources */,
 				33F9E3DE27969FD00098124E /* API.swift in Sources */,
@@ -426,9 +476,11 @@
 				330BA136279ACEA200AF5411 /* GithubClient.swift in Sources */,
 				33EB143F25DAB930005451B4 /* ProfileSettingsView.swift in Sources */,
 				33A825FD27954B940054C802 /* RequestLoggingInterceptor.swift in Sources */,
+				332B366327B1952C0032FBF9 /* StringExtensions.swift in Sources */,
 				33A0D55D25D99B8D0067D904 /* ConnectView.swift in Sources */,
 				33B25CDB25D119BE008D6F29 /* RootView.swift in Sources */,
 				337AEF27279AFCD8005C0133 /* Repository.swift in Sources */,
+				33930FB827B2A54100A55DC6 /* BuildEnv.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,7 +621,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.radler.Duesentrieb;
+				PRODUCT_BUNDLE_IDENTIFIER = com.radler.duesentrieb.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -594,7 +646,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.radler.Duesentrieb;
+				PRODUCT_BUNDLE_IDENTIFIER = com.radler.duesentrieb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

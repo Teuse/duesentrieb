@@ -31,10 +31,6 @@ class GithubState: ObservableObject {
         self.user = connection.user
         self.repoStates = connection.repositories
             .map{ RepositoryState(repo: $0, user: connection.user) }
-                
-        Timer.scheduledTimer(withTimeInterval: 30, repeats: false) { _ in
-            self.updateViewModel()
-        }
     }
     
     //MARK:- Private Functions

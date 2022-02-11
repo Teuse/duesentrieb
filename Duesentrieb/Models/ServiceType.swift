@@ -1,6 +1,6 @@
 import Foundation
 
-enum ServiceType: Codable {
-    case github
-    case azure
+enum ServiceType: String, Codable {
+    case github = "github"
+    case azure = "azure"
 }

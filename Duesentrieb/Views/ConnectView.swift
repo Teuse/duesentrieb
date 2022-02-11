@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct ConnectView: View {
-    private let urlPreivew = "https://api.github.com/graphql"
+    private static let urlPreivew = "https://api.github.com/graphql"
     
     @EnvironmentObject private var rootState: RootState
     
-    @State private var url = ""
+    @State private var url = ConnectView.urlPreivew
     @State private var token = ""
     
     let backAction: () -> Void
@@ -47,7 +47,7 @@ struct ConnectView: View {
                     Spacer()
                 }
                 
-                TextField(urlPreivew, text: $url)
+                TextField(ConnectView.urlPreivew, text: $url)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .background(AppColor.whiteTextColor)
                     .cornerRadius(5.0)

@@ -17,11 +17,12 @@ class MenuBarIcon {
     }
     
     private func updateButton() {
-        let isCon = !state.gitStates.isEmpty
-        switch state.connectionState {
-        case .idle:         button.title = isCon ? createButtonTitle() : "Not Connected"
-        case .connecting:   button.title = nextAnimationSymbol()
-        case .error:        button.title = "⚠️"
+        if case .connecting = state.connectionState {
+            button.title = nextAnimationSymbol()
+        } else if state.hasConnectionIssue {
+            button.title = "⚠️"
+        } else {
+            button.title = !state.gitStates.isEmpty ? createButtonTitle() : "Not Connected"
         }
     }
     
