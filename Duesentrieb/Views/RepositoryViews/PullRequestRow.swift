@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct PullRequestRow: View {
-    @ObservedObject var viewModel: PullRequestViewModel
+    @ObservedObject var state: PullRequestState
 
     private func action() {
-        viewModel.openInBrowser()
+        state.openInBrowser()
     }
     
     var body: some View {
@@ -16,16 +16,16 @@ struct PullRequestRow: View {
                 
                 VStack(spacing: 0) {
                     HStack {
-//                        Image(viewModel.type == .pullRequest ? "BranchIcon" : "PullRequestIcon")
+//                        Image(state.type == .pullRequest ? "BranchIcon" : "PullRequestIcon")
                         Image("PullRequestIcon")
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
                             .frame(height: 20)
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(viewModel.pullRequest.title)
+                            Text(state.pullRequest.title)
                             ZStack {
                                 HStack {
-                                    Text(viewModel.pullRequest.author.login)
+                                    Text(state.pullRequest.author.login)
                                         .font(.system(size: 10))
                                         .foregroundColor(AppColor.grayTextColor)
                                     Spacer()
@@ -40,8 +40,8 @@ struct PullRequestRow: View {
                             }
                         }
                         Spacer()
-                        MergableIndication(mergeable: viewModel.isMergeable,
-                                           description: viewModel.mergeableDescription)
+                        MergableIndication(mergeable: state.isMergeable,
+                                           description: state.mergeableDescription)
                     }
                 }
                 .padding([.leading, .trailing])
@@ -49,20 +49,20 @@ struct PullRequestRow: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(height: 45)
-        .opacity(viewModel.isApprovedOrDismissedByMe ? 0.5 : 1)
+        .opacity(state.isResolved ? 0.5 : 1)
     }
     
     var reviewsIndicators: some View {
         HStack {
-            ForEach(viewModel.reviewViewModels, id: \.uuid) {
-                ReviewStateIndicator(viewModel: $0)
+            ForEach(state.reviewStates, id: \.uuid) {
+                ReviewStateIndicator(state: $0)
             }
         }
     }
     
     var commentsIndicator: some View {
         HStack(spacing: 2) {
-            Text("\(viewModel.commentsCount)")
+            Text("\(state.commentsCount)")
             Text("💬")
         }
     }

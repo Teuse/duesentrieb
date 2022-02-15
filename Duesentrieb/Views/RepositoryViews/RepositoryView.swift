@@ -1,33 +1,33 @@
 import SwiftUI
 
 struct RepositoryView: View {
-    @ObservedObject var viewModel: RepositoryViewModel
+    @ObservedObject var repoState: RepositoryState
     let page: Int
     
     var isEmpty: Bool {
-        page == 0 ? viewModel.reviewRequestViewModels.isEmpty : viewModel.pullRequestViewModels.isEmpty
+        page == 0 ? repoState.reviewRequestStates.isEmpty : repoState.pullRequestStates.isEmpty
     }
     
     var body: some View {
         if !isEmpty {
-            section(viewModel: viewModel)
+            section(state: repoState)
                 .frame(height: 18)
             
             if self.page == 0 {
-                pullRequests(prViewModels: viewModel.reviewRequestViewModels)
+                pullRequests(prStates: repoState.reviewRequestStates)
             } else {
-                pullRequests(prViewModels: viewModel.pullRequestViewModels)
+                pullRequests(prStates: repoState.pullRequestStates)
             }
         }
     }
     
-    private func section(viewModel: RepositoryViewModel) -> some View {
+    private func section(state: RepositoryState) -> some View {
         ZStack {
             Rectangle()
                 .fill(Color.gray)
             
             HStack {
-                Text("\(viewModel.name)")
+                Text("\(state.name)")
                     .bold()
                     .padding(.leading)
                     .foregroundColor(.white)
@@ -36,12 +36,12 @@ struct RepositoryView: View {
         }
     }
     
-    private func pullRequests(prViewModels: [PullRequestViewModel]) -> some View {
-        ForEach(prViewModels, id: \.uuid) { pullRequest in
-            PullRequestRow(viewModel: pullRequest)
+    private func pullRequests(prStates: [PullRequestState]) -> some View {
+        ForEach(prStates, id: \.uuid) { pullRequest in
+            PullRequestRow(state: pullRequest)
             
             //Separator
-            if pullRequest.uuid != prViewModels.last?.uuid {
+            if pullRequest.uuid != prStates.last?.uuid {
                 Rectangle().fill(Color.black).frame(height: 1)
             }
         }

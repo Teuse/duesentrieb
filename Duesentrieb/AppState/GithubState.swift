@@ -1,40 +1,42 @@
 import Foundation
 import Combine
 
-class GithubViewModel: ObservableObject {
+class GithubState: ObservableObject {
     private let client: GithubClient
     private var cancelBag = CancelBag()
     
+    let uuid = UUID()
     let user: User
+    let service: Service
     
     @Published private(set) var requestState = RequestState.unknown
-    @Published private(set) var repoViewModels: [RepositoryViewModel]
+    @Published private(set) var repoStates: [RepositoryState]
+    
+    var url: URL { client.url }
+    var token: String { client.token }
     
     var numberOfOpenPullRequests: Int {
-        return repoViewModels.map{ $0.numberOfOpenPullRequests }.reduce(0, +)
+        return repoStates.map{ $0.numberOfOpenPullRequests }.reduce(0, +)
     }
 
     var numberOfOpenReviewRequests: Int {
-        return repoViewModels.map{ $0.numberOfOpenReviewRequests }.reduce(0, +)
+        return repoStates.map{ $0.numberOfOpenReviewRequests }.reduce(0, +)
     }
     
     //MARK:- Life Circle
     
-    init(user: User, repositories: [Repository], client: GithubClient) {
-        self.client = client
-        self.user = user
-        self.repoViewModels = repositories
-            .map{ RepositoryViewModel(repo: $0, user: user) }
-                
-        Timer.scheduledTimer(withTimeInterval: 30, repeats: false) { _ in
-            self.updateViewModel()
-        }
+    init(service: Service, connection: ServiceConnection) {
+        self.service = service
+        self.client = connection.client
+        self.user = connection.user
+        self.repoStates = connection.repositories
+            .map{ RepositoryState(repo: $0, user: connection.user) }
     }
     
     //MARK:- Private Functions
     
     func updateViewModel() {
-        GithubViewModel.fetchRepositories(client: client, user: user)
+        GithubState.fetchRepositories(client: client, user: user)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     print("ERROR: failed to update PullRequests: \(error)")
@@ -44,8 +46,8 @@ class GithubViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] repositories in
                 guard let `self` = self else { return }
-                self.repoViewModels = repositories
-                    .map{ RepositoryViewModel(repo: $0, user: self.user) }
+                self.repoStates = repositories
+                    .map{ RepositoryState(repo: $0, user: self.user) }
             })
             .store(in: cancelBag)
     }
@@ -61,7 +63,7 @@ class GithubViewModel: ObservableObject {
                 let timeInterval = Double(nanoTime) / 1_000_000
                 print(" ")
                 print("####################")
-                print("Update ViewModels in \(timeInterval) ms")
+                print("Update States in \(timeInterval) ms")
                 print("### ReviewRequests:")
                 let _ = allRepos.map{
                     let blub = $0.reviewRequests(for: user).map{ "\($0.author.login) - \($0.title)" }

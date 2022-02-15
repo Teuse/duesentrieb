@@ -5,12 +5,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: 45)
     private let popover = NSPopover()
     
-    private var rootViewModel: RootViewModel!
+    private var rootState: RootState!
     private var menuBarIcon: MenuBarIcon?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {            
-        rootViewModel = RootViewModel()
-        let rootView = RootView(viewModel: rootViewModel)
+        rootState = RootState()
+        let rootView = RootView()
+            .environmentObject(rootState)
         
         popover.contentViewController = NSHostingController(rootView: rootView)
         popover.behavior = .transient
@@ -18,7 +19,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusBarItem.button {
             button.title = ""
             button.action = #selector(togglePopover(_:))
-            menuBarIcon = MenuBarIcon(button: button, viewModel: rootViewModel)
+            menuBarIcon = MenuBarIcon(button: button, state: rootState)
+        }
+        
+        // Run the 'reconnect' process after the initialization loop
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+            self.rootState.reconnect()
         }
     }
 
@@ -27,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
-                rootViewModel.gitViewModel?.updateViewModel()
+                rootState.triggerUpdate()
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 NSApplication.shared.activate(ignoringOtherApps: true)

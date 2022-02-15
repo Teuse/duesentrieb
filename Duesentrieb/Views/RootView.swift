@@ -1,39 +1,39 @@
 import SwiftUI
 
 enum AppPage: Int {
-    case main, settings
+    case main, settings, connect
 }
 
 struct RootView: View {
-    @ObservedObject var viewModel: RootViewModel
+    @EnvironmentObject private var rootState: RootState
     
     @State var currentPage = AppPage.main
     
     var body: some View {
         ZStack {
-            if viewModel.connectionState == .done {
-                mainViews
+            if rootState.gitStates.isEmpty || currentPage == .connect {
+                ConnectView() {
+                    currentPage = .settings
+                }
             }
             else {
-                ConnectView(viewModel: viewModel)
+                mainViews
             }
         }
-        .frame(width: 500, height: 400)
+        .frame(width: 600, height: 400)
     }
     
     var mainViews: some View {
         HStack(spacing: 0) {
             SideBar(page: $currentPage) {
-                viewModel.clickQuitApp()
+                rootState.clickQuitApp()
             }
             
             if currentPage == .settings {
-                SettingsView(viewModel: viewModel) {
-                    currentPage = .main
-                }
+                SettingsView(page: $currentPage)
             }
-            else if let vm = viewModel.gitViewModel, currentPage == .main {
-                MainView(viewModel: vm)
+            else if !rootState.gitStates.isEmpty, currentPage == .main {
+                MainView()
             }
             else {
                 Text("What happend here?")

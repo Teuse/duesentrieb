@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ReviewStateIndicator: View {
-    @ObservedObject var viewModel: ReviewViewModel
+    @ObservedObject var state: ReviewState
     
     @State private var showPopover: Bool = false
     
@@ -17,13 +17,13 @@ struct ReviewStateIndicator: View {
     
     var approvedIcon: some View {
         ZStack {
-            if viewModel.state == .approved {
+            if state.state == .approved {
                 Text("✓").font(.system(size: 15)).foregroundColor(.green)
-            } else if viewModel.state == .changesRequested {
+            } else if state.state == .changesRequested {
                 Text("±").font(.system(size: 17)).foregroundColor(.red).offset(y: -1)
-            } else if viewModel.state == .dismissed {
+            } else if state.state == .dismissed {
                 Text("🔴").font(.system(size: 6))
-            } else if viewModel.state == .commented {
+            } else if state.state == .commented {
                 Text("💬").font(.system(size: 6))
             } else {
                 Text("🟡").font(.system(size: 6))
@@ -33,7 +33,7 @@ struct ReviewStateIndicator: View {
     
     var popoverContent: some View {
         ZStack {
-            Text(viewModel.author.login)
+            Text(state.author.login)
         }
         .frame(width: 100, height: 20)
     }

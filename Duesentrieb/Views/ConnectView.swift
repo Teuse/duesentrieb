@@ -1,22 +1,23 @@
 import SwiftUI
 
 struct ConnectView: View {
-    private let urlPreivew = "https://api.github.com/graphql"
+    private static let urlPreivew = "https://api.github.com/graphql"
     
-    @ObservedObject var viewModel: RootViewModel
+    @EnvironmentObject private var rootState: RootState
     
-    @State private var url = AppSettings.githubUrl?.absoluteString ?? ""
-    @State private var token = AppSettings.githubToken ?? ""
+    @State private var url = ConnectView.urlPreivew
+    @State private var token = ""
+    
+    let backAction: () -> Void
     
     var canConnect: Bool { !url.isEmpty && !token.isEmpty }
     
     func connectAction() {
-        guard canConnect, let url = URL(string: url) else { return }
-        viewModel.clickConnect(gitUrl: url, token: token)
-    }
-    
-    func quitAppAction() {
-        viewModel.clickQuitApp()
+        rootState.connectToGithub(gitUrl: url, token: token) {
+            if !rootState.gitStates.isEmpty, case .idle = rootState.connectionState {
+                backAction()
+            }
+        }
     }
     
     var body: some View {
@@ -26,10 +27,17 @@ struct ConnectView: View {
             
             VStack(spacing: 10) {
                 
-                Text("Wellcome to Düsentrieb")
-                    .font(.largeTitle)
-                    .foregroundColor(AppColor.primary)
-                
+                ZStack {
+                    Text("Wellcome to Düsentrieb")
+                        .font(.largeTitle)
+                        .foregroundColor(AppColor.primary)
+                    if !rootState.gitStates.isEmpty {
+                        HStack(spacing: 0) {
+                            backArrow
+                            Spacer()
+                        }
+                    }
+                }
                 Spacer()
                 
                 HStack {
@@ -39,7 +47,7 @@ struct ConnectView: View {
                     Spacer()
                 }
                 
-                TextField(urlPreivew, text: $url)
+                TextField(ConnectView.urlPreivew, text: $url)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .background(AppColor.whiteTextColor)
                     .cornerRadius(5.0)
@@ -49,8 +57,8 @@ struct ConnectView: View {
                     .background(AppColor.whiteTextColor)
                     .cornerRadius(5.0)
                 
-                if viewModel.connectionState == .error {
-                    errorText
+                if case let .error(errorMsg) = rootState.connectionState {
+                    errorText(text: errorMsg)
                 }
                 
                 Spacer().frame(height: 5)
@@ -61,21 +69,33 @@ struct ConnectView: View {
                 quitAppButton
             }
             .padding()
-            .frame(maxWidth: 400)
+            .frame(maxWidth: 500)
             
-            if viewModel.connectionState == .requesting {
+            if case .connecting = rootState.connectionState {
                 loadingOverlay
             }
         }
     }
     
     var quitAppButton: some View {
-        Button(action: quitAppAction) {
+        Button(action: rootState.clickQuitApp) {
             Text("Quit App")
                 .foregroundColor(AppColor.whiteTextColor)
         }
         .buttonStyle(PlainButtonStyle())
         .padding()
+    }
+    
+    var backArrow: some View {
+        Button(action: backAction) {
+            Image(systemName: "arrow.left")
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .frame(height: 20)
+                .foregroundColor(AppColor.whiteTextColor)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding([.top], 5)
     }
     
     var loadingOverlay: some View {
@@ -89,9 +109,9 @@ struct ConnectView: View {
         }
     }
     
-    var errorText: some View {
+    func errorText(text: String) -> some View {
         HStack {
-            Text("Connection failed. Please check the url and token and try again...")
+            Text(text)
                 .foregroundColor(Color.red)
             Spacer()
         }
